@@ -1,0 +1,260 @@
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { colors } from '../constants/colors';
+
+// Screens
+import HomeScreen from '../screens/app/HomeScreen';
+import ReportIncidentScreen from '../screens/app/ReportIncidentScreen';
+import PsychologicalSupportScreen from '../screens/app/PsychologicalSupportScreen';
+import InformationScreen from '../screens/app/InformationScreen';
+import SupportServicesScreen from '../screens/app/SupportServicesScreen';
+import SafeVoiceScreen from '../screens/app/SafeVoiceScreen';
+import FeedbackScreen from '../screens/app/FeedbackScreen';
+import ProfileScreen from '../screens/app/ProfileScreen';
+import LocalLawsScreen from '../screens/app/LocalLawsScreen';
+import EmergencyContactScreen from '../screens/app/EmergencyContactScreen';
+import AddStoryScreen from '../screens/app/AddStoryScreen';
+import InternationalPoliciesScreen from '../screens/app/InternationalPoliciesScreen';
+import HumanRightsScreen from '../screens/app/HumanRightsScreen';
+
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+// Home Stack Navigation
+function HomeStackNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: 'ZYGA',
+          headerTitleAlign: 'center',
+        }}
+      />
+      <Stack.Screen
+        name="ReportIncident"
+        component={ReportIncidentScreen}
+        options={{ title: 'Report Incident' }}
+      />
+      <Stack.Screen
+        name="LocalLaws"
+        component={LocalLawsScreen}
+        options={{ title: 'Local Laws' }}
+      />
+      <Stack.Screen
+        name="EmergencyContact"
+        component={EmergencyContactScreen}
+        options={{ title: 'Emergency Contact' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Support Stack Navigation
+function SupportStackNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="Support"
+        component={PsychologicalSupportScreen}
+        options={{ title: 'Psychological Support' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Learn Stack Navigation
+function LearnStackNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="Learn"
+        component={InformationScreen}
+        options={{ title: 'Learn' }}
+      />
+      <Stack.Screen
+        name="InternationalPolicies"
+        component={InternationalPoliciesScreen}
+        options={{ title: 'International Policies' }}
+      />
+      <Stack.Screen
+        name="HumanRights"
+        component={HumanRightsScreen}
+        options={{ title: 'Human Rights' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Services Stack Navigation
+function ServicesStackNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="SupportServices"
+        component={SupportServicesScreen}
+        options={{ title: 'Support Services' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Stories Stack Navigation
+function StoriesStackNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: true,
+        headerStyle: { backgroundColor: colors.primary },
+        headerTintColor: '#fff',
+        headerTitleStyle: { fontWeight: '600' },
+      }}
+    >
+      <Stack.Screen
+        name="SafeVoice"
+        component={SafeVoiceScreen}
+        options={{ title: 'Safe Voice - Stories' }}
+      />
+      <Stack.Screen
+        name="AddStory"
+        component={AddStoryScreen}
+        options={{ title: 'Add Your Story' }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+// Main Tabs Navigator
+function TabsNavigator() {
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'HomeTab') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'SupportTab') {
+            iconName = focused ? 'heart' : 'heart-outline';
+          } else if (route.name === 'LearnTab') {
+            iconName = focused ? 'book' : 'book-outline';
+          } else if (route.name === 'ServicesTab') {
+            iconName = focused ? 'phone' : 'phone-outline';
+          } else if (route.name === 'StoriesTab') {
+            iconName = focused ? 'chatbubble-ellipses' : 'chatbubble-ellipses-outline';
+          }
+
+          return (
+            <MaterialCommunityIcons name={iconName} size={size} color={color} />
+          );
+        },
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.gray,
+        tabBarLabel: ({ focused }) => {
+          let label;
+          if (route.name === 'HomeTab') label = 'Home';
+          else if (route.name === 'SupportTab') label = 'Help';
+          else if (route.name === 'LearnTab') label = 'Learn';
+          else if (route.name === 'ServicesTab') label = 'Services';
+          else if (route.name === 'StoriesTab') label = 'Stories';
+
+          return focused ? label : null;
+        },
+      })}
+    >
+      <Tab.Screen
+        name="HomeTab"
+        component={HomeStackNavigator}
+        options={{ title: 'Home' }}
+      />
+      <Tab.Screen
+        name="SupportTab"
+        component={SupportStackNavigator}
+        options={{ title: 'Help' }}
+      />
+      <Tab.Screen
+        name="LearnTab"
+        component={LearnStackNavigator}
+        options={{ title: 'Learn' }}
+      />
+      <Tab.Screen
+        name="ServicesTab"
+        component={ServicesStackNavigator}
+        options={{ title: 'Services' }}
+      />
+      <Tab.Screen
+        name="StoriesTab"
+        component={StoriesStackNavigator}
+        options={{ title: 'Stories' }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+// Main App Navigator
+export default function AppNavigator() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Tabs"
+        component={TabsNavigator}
+      />
+      <Stack.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: '#fff',
+          headerTitle: 'Profile',
+        }}
+      />
+      <Stack.Screen
+        name="Feedback"
+        component={FeedbackScreen}
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: colors.primary },
+          headerTintColor: '#fff',
+          headerTitle: 'Send Feedback',
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
