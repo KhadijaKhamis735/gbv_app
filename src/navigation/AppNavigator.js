@@ -1,8 +1,11 @@
 import React from 'react';
+import { Platform, Text } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { colors } from '../constants/colors';
+import { DrawerContent } from '../components/DrawerContent';
 
 // Screens
 import HomeScreen from '../screens/app/HomeScreen';
@@ -18,20 +21,37 @@ import EmergencyContactScreen from '../screens/app/EmergencyContactScreen';
 import AddStoryScreen from '../screens/app/AddStoryScreen';
 import InternationalPoliciesScreen from '../screens/app/InternationalPoliciesScreen';
 import HumanRightsScreen from '../screens/app/HumanRightsScreen';
+import SettingsScreen from '../screens/app/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
+
+const defaultHeaderOptions = {
+  headerShown: true,
+  headerStyle: { backgroundColor: colors.primary },
+  headerTintColor: '#fff',
+  headerTitleStyle: { fontWeight: '600' },
+};
+
+const withDrawerHeader = (navigation) => ({
+  ...defaultHeaderOptions,
+  headerLeft: () => (
+    <MaterialCommunityIcons
+      name="menu"
+      size={24}
+      color="#fff"
+      style={{ marginLeft: 16 }}
+      onPress={() => navigation.getParent()?.openDrawer()}
+    />
+  ),
+});
 
 // Home Stack Navigation
 function HomeStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '600' },
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="Home"
@@ -64,12 +84,7 @@ function HomeStackNavigator() {
 function SupportStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '600' },
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="Support"
@@ -84,12 +99,7 @@ function SupportStackNavigator() {
 function LearnStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '600' },
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="Learn"
@@ -114,12 +124,7 @@ function LearnStackNavigator() {
 function ServicesStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '600' },
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="SupportServices"
@@ -134,12 +139,7 @@ function ServicesStackNavigator() {
 function StoriesStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: true,
-        headerStyle: { backgroundColor: colors.primary },
-        headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '600' },
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="SafeVoice"
@@ -190,7 +190,17 @@ function TabsNavigator() {
           else if (route.name === 'ServicesTab') label = 'Services';
           else if (route.name === 'StoriesTab') label = 'Stories';
 
-          return focused ? label : null;
+          return (
+            <Text
+              style={{
+                fontSize: 12,
+                fontWeight: focused ? '700' : '500',
+                color: focused ? colors.primary : colors.gray,
+              }}
+            >
+              {label}
+            </Text>
+          );
         },
       })}
     >
@@ -223,25 +233,23 @@ function TabsNavigator() {
   );
 }
 
-// Main App Navigator
-export default function AppNavigator() {
+// Main App Stack Navigator (for drawer content)
+function MainStackNavigator() {
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={({ navigation }) => withDrawerHeader(navigation)}
     >
       <Stack.Screen
         name="Tabs"
         component={TabsNavigator}
+        options={{
+          headerShown: false,
+        }}
       />
       <Stack.Screen
         name="Profile"
         component={ProfileScreen}
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: colors.primary },
-          headerTintColor: '#fff',
           headerTitle: 'Profile',
         }}
       />
@@ -249,12 +257,233 @@ export default function AppNavigator() {
         name="Feedback"
         component={FeedbackScreen}
         options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: colors.primary },
-          headerTintColor: '#fff',
           headerTitle: 'Send Feedback',
         }}
       />
     </Stack.Navigator>
+  );
+}
+
+function DrawerStackScreen({ component: Component, title }) {
+  return (
+    <Stack.Navigator screenOptions={({ navigation }) => withDrawerHeader(navigation)}>
+      <Stack.Screen name={title} component={Component} options={{ title }} />
+    </Stack.Navigator>
+  );
+}
+
+function ReportNowDrawerScreen() {
+  return <DrawerStackScreen component={ReportIncidentScreen} title="Report Now" />;
+}
+
+function GetHelpDrawerScreen() {
+  return <DrawerStackScreen component={PsychologicalSupportScreen} title="Get Help" />;
+}
+
+function LocalLawsDrawerScreen() {
+  return <DrawerStackScreen component={LocalLawsScreen} title="Local Laws" />;
+}
+
+function EmergencyDrawerScreen() {
+  return <DrawerStackScreen component={EmergencyContactScreen} title="Emergency" />;
+}
+
+function SupportServicesDrawerScreen() {
+  return <DrawerStackScreen component={SupportServicesScreen} title="Support Services" />;
+}
+
+function StoriesDrawerScreen() {
+  return <DrawerStackScreen component={SafeVoiceScreen} title="Stories" />;
+}
+
+function InformationDrawerScreen() {
+  return <DrawerStackScreen component={InformationScreen} title="Information" />;
+}
+
+function ProfileDrawerScreen() {
+  return <DrawerStackScreen component={ProfileScreen} title="Profile" />;
+}
+
+function FeedbackDrawerScreen() {
+  return <DrawerStackScreen component={FeedbackScreen} title="Feedback" />;
+}
+
+function SettingsDrawerScreen() {
+  return <DrawerStackScreen component={SettingsScreen} title="Settings" />;
+}
+
+function AddStoryDrawerScreen() {
+  return <DrawerStackScreen component={AddStoryScreen} title="Add Story" />;
+}
+
+function InternationalPoliciesDrawerScreen() {
+  return <DrawerStackScreen component={InternationalPoliciesScreen} title="International Policies" />;
+}
+
+function HumanRightsDrawerScreen() {
+  return <DrawerStackScreen component={HumanRightsScreen} title="Human Rights" />;
+}
+
+// Main App Navigator with Drawer Menu
+export default function AppNavigator() {
+  if (Platform.OS === 'web') {
+    return <MainStackNavigator />;
+  }
+
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      drawerContent={(props) => <DrawerContent {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerActiveTintColor: colors.primary,
+        drawerActiveBackgroundColor: '#E3F2FD',
+        drawerInactiveTintColor: '#757575',
+        drawerItemStyle: {
+          borderRadius: 12,
+          marginVertical: 4,
+          marginHorizontal: 12,
+          paddingHorizontal: 12,
+          paddingVertical: 10,
+        },
+        drawerLabelStyle: {
+          fontWeight: '600',
+          fontSize: 15,
+          marginLeft: -16,
+        },
+        drawerType: 'slide',
+        swipeEnabled: true,
+        drawerHideStatusBarOnOpen: false,
+      }}
+    >
+      <Drawer.Screen
+        name="Home"
+        component={MainStackNavigator}
+        options={{
+          title: 'Dashboard',
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="view-dashboard-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Report Now"
+        component={ReportNowDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="file-document-plus-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Get Help"
+        component={GetHelpDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="heart-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Local Laws"
+        component={LocalLawsDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="scale-balance" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Emergency"
+        component={EmergencyDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="alert-circle-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Support Services"
+        component={SupportServicesDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="phone-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Stories"
+        component={StoriesDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="chatbubble-ellipses-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Add Story"
+        component={AddStoryDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="plus-box-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Information"
+        component={InformationDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="book-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="International Policies"
+        component={InternationalPoliciesDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="earth" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Human Rights"
+        component={HumanRightsDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="hand-heart-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfileDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="account-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Settings"
+        component={SettingsDrawerScreen}
+        options={{
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="cog-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Feedback"
+        component={FeedbackDrawerScreen}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          drawerIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="comment-outline" size={size} color={color} />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
   );
 }

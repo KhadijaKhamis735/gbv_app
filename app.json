@@ -11,7 +11,7 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTabletMode": true,
+      "supportsTablet": true,
       "bundleIdentifier": "com.gbv.reportingapp"
     },
     "android": {

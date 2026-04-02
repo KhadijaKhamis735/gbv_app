@@ -102,7 +102,7 @@ export default function LoginScreen({ navigation }) {
       {/* Header */}
       <View style={styles.header}>
         <MaterialCommunityIcons
-          name="shield-heart"
+          name="shield-heart-outline"
           size={60}
           color={colors.primary}
         />
