@@ -33,7 +33,7 @@ export default function OnboardingScreen({ navigation }) {
       {/* Hero Section */}
       <View style={styles.heroSection}>
         <MaterialCommunityIcons
-          name="shield-heart"
+          name="shield-heart-outline"
           size={80}
           color={colors.primary}
           style={styles.heroIcon}

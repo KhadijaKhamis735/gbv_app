@@ -1,6 +1,8 @@
+import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { ActivityIndicator, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
@@ -37,10 +39,12 @@ export default function App() {
   }
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
-      <NavigationContainer>
-        {user ? <AppNavigator /> : <AuthNavigator />}
-      </NavigationContainer>
-    </UserContext.Provider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <UserContext.Provider value={{ user, setUser }}>
+        <NavigationContainer>
+          {user ? <AppNavigator /> : <AuthNavigator />}
+        </NavigationContainer>
+      </UserContext.Provider>
+    </GestureHandlerRootView>
   );
 }
