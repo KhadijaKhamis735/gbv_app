@@ -1,71 +1,45 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Image } from 'react-native';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, Pressable, Platform } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize, shadows } from '../../constants/colors';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import { UserContext } from '../../context/UserContext';
 
 export default function HomeScreen({ navigation }) {
+  const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const [greeting, setGreeting] = useState('');
 
   useEffect(() => {
     const hour = new Date().getHours();
-    if (hour < 12) setGreeting('Good Morning');
-    else if (hour < 18) setGreeting('Good Afternoon');
-    else setGreeting('Good Evening');
-  }, []);
-
-  const quickActions = [
-    {
-      id: 1,
-      title: 'Report Now',
-      icon: 'file-document-plus-outline',
-      color: colors.danger,
-      action: () => navigation.navigate('ReportIncident'),
-    },
-    {
-      id: 2,
-      title: 'Get Help',
-      icon: 'phone-in-talk-outline',
-      color: colors.primary,
-      action: () => navigation.navigate('SupportTab'),
-    },
-    {
-      id: 3,
-      title: 'Local Laws',
-      icon: 'book-outline',
-      color: colors.accent,
-      action: () => navigation.navigate('LocalLaws'),
-    },
-    {
-      id: 4,
-      title: 'Emergency',
-      icon: 'alert-circle-outline',
-      color: colors.warning,
-      action: () => navigation.navigate('EmergencyContact'),
-    },
-  ];
+    if (hour < 12) setGreeting(t('greeting.morning'));
+    else if (hour < 18) setGreeting(t('greeting.afternoon'));
+    else setGreeting(t('greeting.evening'));
+  }, [t]);
 
   const resources = [
     {
       id: 1,
-      title: 'What is GBV?',
-      description: 'Learn about different forms of gender-based violence',
+      title: t('home.resourceGbvTitle'),
+      description: t('home.resourceGbvDesc'),
       icon: 'information-outline',
+      action: () => navigation.navigate('International Policies'),
     },
     {
       id: 2,
-      title: 'Your Rights',
-      description: 'Know your legal rights and protections',
+      title: t('home.resourceRightsTitle'),
+      description: t('home.resourceRightsDesc'),
       icon: 'scale-balance',
+      action: () => navigation.navigate('Human Rights'),
     },
     {
       id: 3,
-      title: 'First Steps',
-      description: 'What to do if you or someone you know is affected',
+      title: t('home.resourceStepsTitle'),
+      description: t('home.resourceStepsDesc'),
       icon: 'directions-outline',
+      action: () => navigation.navigate('ReportIncident'),
     },
   ];
 
@@ -76,7 +50,7 @@ export default function HomeScreen({ navigation }) {
         <View>
           <Text style={styles.greeting}>{greeting}!</Text>
           <Text style={styles.userName}>
-            {user?.isAnonymous ? 'Anonymous User' : (user?.name || 'Welcome')}
+            {user?.isAnonymous ? t('common.anonymousUser') : (user?.name || t('common.welcome'))}
           </Text>
         </View>
         <TouchableOpacity
@@ -101,70 +75,57 @@ export default function HomeScreen({ navigation }) {
             style={styles.alertIcon}
           />
           <View style={styles.alertText}>
-            <Text style={styles.alertTitle}>Your Safety Matters</Text>
+            <Text style={styles.alertTitle}>{t('home.safetyTitle')}</Text>
             <Text style={styles.alertDescription}>
-              We're here to support you. Report confidentially.
+              {t('home.safetyDescription')}
             </Text>
           </View>
         </View>
       </Card>
 
-      {/* Quick Actions */}
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Quick Actions</Text>
-        <View style={styles.actionsGrid}>
-          {quickActions.map((action) => (
-            <TouchableOpacity
-              key={action.id}
-              style={[styles.actionCard, shadows.sm]}
-              onPress={action.action}
-              activeOpacity={0.7}
-            >
-              <View style={[styles.actionIconContainer, { backgroundColor: action.color + '15' }]}>
-                <MaterialCommunityIcons
-                  name={action.icon}
-                  size={28}
-                  color={action.color}
-                />
-              </View>
-              <Text style={styles.actionTitle}>{action.title}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
-
       {/* Resources */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Resources</Text>
+        <Text style={styles.sectionTitle}>{t('home.resources')}</Text>
         {resources.map((resource) => (
-          <Card key={resource.id} style={styles.resourceCard}>
-            <View style={styles.resourceContent}>
-              <MaterialCommunityIcons
-                name={resource.icon}
-                size={24}
-                color={colors.primary}
-                style={styles.resourceIcon}
-              />
-              <View style={styles.resourceText}>
-                <Text style={styles.resourceTitle}>{resource.title}</Text>
-                <Text style={styles.resourceDescription}>{resource.description}</Text>
+          <Pressable
+            key={resource.id}
+            onPress={resource.action}
+            accessibilityRole="button"
+            android_ripple={{ color: 'rgba(30, 136, 229, 0.12)' }}
+            style={({ pressed }) => [
+              styles.resourcePressable,
+              Platform.OS === 'ios' && pressed && styles.resourcePressed,
+            ]}
+          >
+            <Card style={styles.resourceCard}>
+              <View style={styles.resourceContent}>
+                <MaterialCommunityIcons
+                  name={resource.icon}
+                  size={24}
+                  color={colors.primary}
+                  style={styles.resourceIcon}
+                />
+                <View style={styles.resourceText}>
+                  <Text style={styles.resourceTitle}>{resource.title}</Text>
+                  <Text style={styles.resourceDescription}>{resource.description}</Text>
+                </View>
+                <MaterialCommunityIcons
+                  name="chevron-right"
+                  size={24}
+                  color={colors.gray}
+                />
               </View>
-              <MaterialCommunityIcons
-                name="chevron-right"
-                size={24}
-                color={colors.gray}
-              />
-            </View>
-          </Card>
+            </Card>
+          </Pressable>
         ))}
       </View>
 
       {/* Recent Activity */}
       <View style={styles.section}>
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Recent Activity</Text>
+          <Text style={styles.sectionTitle}>{t('home.recentActivity')}</Text>
           <TouchableOpacity>
-            <Text style={styles.seeAllText}>See All</Text>
+            <Text style={styles.seeAllText}>{t('home.seeAll')}</Text>
           </TouchableOpacity>
         </View>
         <Card>
@@ -175,7 +136,7 @@ export default function HomeScreen({ navigation }) {
               color={colors.mediumGray}
             />
             <Text style={styles.emptyActivityText}>
-              No recent activity yet
+              {t('home.noActivity')}
             </Text>
           </View>
         </Card>
@@ -190,14 +151,14 @@ export default function HomeScreen({ navigation }) {
             color={colors.primary}
           />
           <View style={styles.supportText}>
-            <Text style={styles.supportTitle}>Need Immediate Support?</Text>
+            <Text style={styles.supportTitle}>{t('home.supportTitle')}</Text>
             <Text style={styles.supportDescription}>
-              Connect with counselors and local services
+              {t('home.supportDescription')}
             </Text>
           </View>
         </View>
         <Button
-          title="Get Support"
+          title={t('home.getSupport')}
           onPress={() => navigation.navigate('SupportTab')}
           size="sm"
           style={styles.supportButton}
@@ -214,7 +175,7 @@ export default function HomeScreen({ navigation }) {
           size={20}
           color={colors.primary}
         />
-        <Text style={styles.feedbackText}>Send Feedback</Text>
+        <Text style={styles.feedbackText}>{t('home.sendFeedback')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -325,6 +286,13 @@ const styles = StyleSheet.create({
   },
   resourceCard: {
     marginBottom: spacing.md,
+  },
+  resourcePressable: {
+    borderRadius: 12,
+  },
+  resourcePressed: {
+    opacity: 0.85,
+    transform: [{ scale: 0.99 }],
   },
   resourceContent: {
     flexDirection: 'row',

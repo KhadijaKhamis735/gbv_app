@@ -1,69 +1,84 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
   Text,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
+import Button from '../../components/Button';
 import Card from '../../components/Card';
 import { mockInternationalPolicies } from '../../data/mockData';
 
-export default function InternationalPoliciesScreen() {
-  const [expandedPolicies, setExpandedPolicies] = useState({});
+export default function InternationalPoliciesScreen({ navigation }) {
+  const { t } = useTranslation();
+  const learnMoreUrl = 'https://www.unwomen.org/en/what-we-do/ending-violence-against-women';
+  const policyPdfUrls = {
+    1: 'https://rm.coe.int/168008482e',
+    2: 'https://www.un.org/womenwatch/daw/cedaw/text/econvention.pdf',
+    3: 'https://www.un.org/womenwatch/daw/beijing/pdf/BDPfA%20E.pdf',
+  };
 
-  const togglePolicy = (policyId) => {
-    setExpandedPolicies((prev) => ({
-      ...prev,
-      [policyId]: !prev[policyId],
-    }));
+  const handleLearnMore = async () => {
+    await Linking.openURL(learnMoreUrl);
+  };
+
+  const openPolicyPdf = (policyId, title) => {
+    const uri = policyPdfUrls[policyId] || policyPdfUrls[1];
+    navigation.navigate('PdfViewer', {
+      uri,
+      title,
+    });
   };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>International Policies</Text>
+        <Text style={styles.headerTitle}>{t('drawer.internationalPolicies')}</Text>
         <Text style={styles.headerSubtitle}>
-          Global agreements protecting women's rights
+          {t('policies.headerSubtitle')}
         </Text>
       </View>
 
       {/* Policies */}
       <View style={styles.content}>
         {mockInternationalPolicies.map((policy) => (
+          (() => {
+            const localizedPolicy = {
+              ...policy,
+              title: t(`policies.items.${policy.id}.title`, { defaultValue: policy.title }),
+              organization: t(`policies.items.${policy.id}.organization`, { defaultValue: policy.organization }),
+              content: t(`policies.items.${policy.id}.content`, { defaultValue: policy.content }),
+            };
+
+            return (
           <TouchableOpacity
             key={policy.id}
-            onPress={() => togglePolicy(policy.id)}
+            onPress={() => openPolicyPdf(policy.id, localizedPolicy.title)}
             activeOpacity={0.7}
           >
             <Card style={styles.policyCard}>
               <View style={styles.policyHeader}>
                 <View style={styles.policyInfo}>
-                  <Text style={styles.policyTitle}>{policy.title}</Text>
-                  <Text style={styles.policyOrg}>{policy.organization}</Text>
+                  <Text style={styles.policyTitle}>{localizedPolicy.title}</Text>
+                  <Text style={styles.policyOrg}>{localizedPolicy.organization}</Text>
                 </View>
                 <MaterialCommunityIcons
-                  name={
-                    expandedPolicies[policy.id]
-                      ? 'chevron-up'
-                      : 'chevron-down'
-                  }
+                  name="chevron-right"
                   size={24}
                   color={colors.primary}
                 />
               </View>
-
-              {expandedPolicies[policy.id] && (
-                <View style={styles.policyContent}>
-                  <View style={styles.contentDivider} />
-                  <Text style={styles.contentText}>{policy.content}</Text>
-                </View>
-              )}
+              <Text style={styles.tapHint}>Tap to open PDF</Text>
             </Card>
           </TouchableOpacity>
+            );
+          })()
         ))}
       </View>
 
@@ -76,14 +91,14 @@ export default function InternationalPoliciesScreen() {
             color={colors.primary}
           />
           <Text style={styles.bannerText}>
-            These international policies provide a framework for protecting women's rights globally.
+            {t('policies.infoBanner')}
           </Text>
         </View>
       </Card>
 
       {/* Resources */}
       <Card style={styles.resourcesCard}>
-        <Text style={styles.resourcesTitle}>Learn More</Text>
+        <Text style={styles.resourcesTitle}>{t('policies.learnMore')}</Text>
         <View style={styles.resourceItem}>
           <MaterialCommunityIcons
             name="link"
@@ -91,9 +106,14 @@ export default function InternationalPoliciesScreen() {
             color={colors.primary}
           />
           <Text style={styles.resourceText}>
-            Visit UN Women for more information
+            {t('policies.resourceText')}
           </Text>
         </View>
+        <Button
+          title={t('policies.learnMore')}
+          onPress={handleLearnMore}
+          style={styles.learnMoreButton}
+        />
       </Card>
     </ScrollView>
   );
@@ -147,18 +167,10 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.gray,
   },
-  policyContent: {
-    marginTop: spacing.md,
-  },
-  contentDivider: {
-    height: 1,
-    backgroundColor: colors.light,
-    marginBottom: spacing.md,
-  },
-  contentText: {
+  tapHint: {
+    marginTop: spacing.sm,
     fontSize: fontSize.sm,
     color: colors.gray,
-    lineHeight: 20,
   },
   infoBanner: {
     marginHorizontal: spacing.md,
@@ -194,5 +206,8 @@ const styles = StyleSheet.create({
     marginLeft: spacing.md,
     fontSize: fontSize.sm,
     color: colors.gray,
+  },
+  learnMoreButton: {
+    marginTop: spacing.md,
   },
 });

@@ -22,8 +22,10 @@ import { UserContext } from '../../context/UserContext';
 import { saveIncident } from '../../services/storageService';
 import { incidentApi } from '../../services/apiService';
 import { validateForm, formatDate, formatTime } from '../../utils/validation';
+import { useTranslation } from 'react-i18next';
 
 export default function ReportIncidentScreen({ navigation }) {
+  const { t } = useTranslation();
   const { user } = useContext(UserContext);
   const [incident, setIncident] = useState({
     title: '',
@@ -39,6 +41,11 @@ export default function ReportIncidentScreen({ navigation }) {
   const [alert, setAlert] = useState(null);
   const [errors, setErrors] = useState({});
   const [currentStep, setCurrentStep] = useState(1);
+
+  const translatedGbvTypes = GBV_TYPES.map((item) => ({
+    ...item,
+    label: t(`reportIncident.types.${item.value}`),
+  }));
 
   const handleSetCurrentDate = () => {
     setIncident({ ...incident, date: new Date().toLocaleDateString() });
@@ -95,8 +102,8 @@ export default function ReportIncidentScreen({ navigation }) {
     if (!permissionResult.granted) {
       setAlert({
         type: 'error',
-        title: 'Permission Denied',
-        message: 'We need permission to access your photos',
+        title: t('reportIncident.permissionDeniedTitle'),
+        message: t('reportIncident.photoPermissionDeniedMessage'),
       });
       return;
     }
@@ -126,8 +133,8 @@ export default function ReportIncidentScreen({ navigation }) {
     if (!permissionResult.granted) {
       setAlert({
         type: 'error',
-        title: 'Permission Denied',
-        message: 'We need permission to access your location',
+        title: t('reportIncident.permissionDeniedTitle'),
+        message: t('reportIncident.locationPermissionDeniedMessage'),
       });
       return;
     }
@@ -144,14 +151,14 @@ export default function ReportIncidentScreen({ navigation }) {
       });
       setAlert({
         type: 'success',
-        title: 'Location Added',
-        message: 'Your current location has been added',
+        title: t('reportIncident.locationAddedTitle'),
+        message: t('reportIncident.locationAddedMessage'),
       });
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Location Error',
-        message: 'Could not get your location',
+        title: t('reportIncident.locationErrorTitle'),
+        message: t('reportIncident.locationErrorMessage'),
       });
     } finally {
       setLoading(false);
@@ -166,9 +173,8 @@ export default function ReportIncidentScreen({ navigation }) {
     if (mediaItems.length === 0 && !incident.location) {
       setAlert({
         type: 'warning',
-        title: 'No Media or Location',
-        message:
-          'Consider adding media (photos) or your location for better support',
+        title: t('reportIncident.noMediaOrLocationTitle'),
+        message: t('reportIncident.noMediaOrLocationMessage'),
       });
     }
 
@@ -185,8 +191,8 @@ export default function ReportIncidentScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Report Submitted',
-        message: 'Your incident has been recorded. Support services will contact you soon.',
+        title: t('reportIncident.reportSubmittedTitle'),
+        message: t('reportIncident.reportSubmittedMessage'),
       });
 
       // Reset form
@@ -196,8 +202,8 @@ export default function ReportIncidentScreen({ navigation }) {
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Submission Failed',
-        message: error.message || 'Failed to submit your report',
+        title: t('reportIncident.submissionFailedTitle'),
+        message: error.message || t('reportIncident.submissionFailedMessage'),
       });
     } finally {
       setLoading(false);
@@ -209,7 +215,7 @@ export default function ReportIncidentScreen({ navigation }) {
   };
 
   if (loading && currentStep > 2) {
-    return <LoadingIndicator message="Submitting your report..." />;
+    return <LoadingIndicator message={t('reportIncident.submitting')} />;
   }
 
   return (
@@ -258,17 +264,17 @@ export default function ReportIncidentScreen({ navigation }) {
         <Text
           style={[styles.stepLabel, currentStep === 1 && styles.activeStep]}
         >
-          Details
+          {t('reportIncident.steps.details')}
         </Text>
         <Text
           style={[styles.stepLabel, currentStep === 2 && styles.activeStep]}
         >
-          Media & Location
+          {t('reportIncident.steps.mediaLocation')}
         </Text>
         <Text
           style={[styles.stepLabel, currentStep === 3 && styles.activeStep]}
         >
-          Review
+          {t('reportIncident.steps.review')}
         </Text>
       </View>
 
@@ -286,11 +292,11 @@ export default function ReportIncidentScreen({ navigation }) {
       {/* Step 1: Details */}
       {currentStep === 1 && (
         <View style={styles.step}>
-          <Text style={styles.stepTitle}>Tell Us What Happened</Text>
+          <Text style={styles.stepTitle}>{t('reportIncident.step1Title')}</Text>
 
           <Input
-            label="Incident Title"
-            placeholder="Brief summary of the incident"
+            label={t('reportIncident.incidentTitleLabel')}
+            placeholder={t('reportIncident.incidentTitlePlaceholder')}
             value={incident.title}
             onChangeText={(text) => setIncident({ ...incident, title: text })}
             error={errors.title}
@@ -298,8 +304,8 @@ export default function ReportIncidentScreen({ navigation }) {
           />
 
           <Input
-            label="Detailed Description"
-            placeholder="Provide more details about what happened"
+            label={t('reportIncident.detailedDescriptionLabel')}
+            placeholder={t('reportIncident.detailedDescriptionPlaceholder')}
             value={incident.description}
             onChangeText={(text) =>
               setIncident({ ...incident, description: text })
@@ -311,19 +317,19 @@ export default function ReportIncidentScreen({ navigation }) {
           />
 
           <Dropdown
-            label="Type of GBV"
-            placeholder="Select the type of violence"
+            label={t('reportIncident.typeOfGbvLabel')}
+            placeholder={t('reportIncident.typeOfGbvPlaceholder')}
             value={incident.type}
             onValueChange={(type) =>
               setIncident({ ...incident, type })
             }
-            items={GBV_TYPES}
+            items={translatedGbvTypes}
             error={errors.type}
           />
 
           <Input
-            label="Date of Incident"
-            placeholder="Date"
+            label={t('reportIncident.dateOfIncidentLabel')}
+            placeholder={t('reportIncident.datePlaceholder')}
             value={incident.date}
             onChangeText={(text) => setIncident({ ...incident, date: text })}
             icon="calendar-outline"
@@ -333,8 +339,8 @@ export default function ReportIncidentScreen({ navigation }) {
           />
 
           <Input
-            label="Time of Incident"
-            placeholder="Time"
+            label={t('reportIncident.timeOfIncidentLabel')}
+            placeholder={t('reportIncident.timePlaceholder')}
             value={incident.time}
             onChangeText={(text) => setIncident({ ...incident, time: text })}
             icon="clock-outline"
@@ -348,13 +354,13 @@ export default function ReportIncidentScreen({ navigation }) {
       {/* Step 2: Media & Location */}
       {currentStep === 2 && (
         <View style={styles.step}>
-          <Text style={styles.stepTitle}>Add Media & Location (Optional)</Text>
+          <Text style={styles.stepTitle}>{t('reportIncident.step2Title')}</Text>
 
           {/* Media */}
           <Card>
-            <Text style={styles.subsectionTitle}>Upload Media</Text>
+            <Text style={styles.subsectionTitle}>{t('reportIncident.uploadMediaTitle')}</Text>
             <Text style={styles.subsectionDescription}>
-              Add photos, videos, or audio recordings as evidence
+              {t('reportIncident.uploadMediaDescription')}
             </Text>
 
             {mediaItems.length > 0 && (
@@ -374,7 +380,7 @@ export default function ReportIncidentScreen({ navigation }) {
                     />
                     <View style={styles.mediaInfo}>
                       <Text style={styles.mediaType}>
-                        {item.type.charAt(0).toUpperCase() + item.type.slice(1)}
+                        {t(`reportIncident.mediaTypes.${item.type}`)}
                       </Text>
                       <Text style={styles.mediaPath} numberOfLines={1}>
                         {item.uri.split('/').pop()}
@@ -393,7 +399,7 @@ export default function ReportIncidentScreen({ navigation }) {
             )}
 
             <Button
-              title={`Add Photo ${mediaItems.length > 0 ? '(' + mediaItems.length + ')' : ''}`}
+              title={`${t('reportIncident.addPhoto')} ${mediaItems.length > 0 ? '(' + mediaItems.length + ')' : ''}`}
               onPress={handleAddPhoto}
               variant="outline"
               size="sm"
@@ -403,9 +409,9 @@ export default function ReportIncidentScreen({ navigation }) {
 
           {/* Location */}
           <Card style={styles.locationCard}>
-            <Text style={styles.subsectionTitle}>Add Location</Text>
+            <Text style={styles.subsectionTitle}>{t('reportIncident.addLocationTitle')}</Text>
             <Text style={styles.subsectionDescription}>
-              Your current location helps services find you
+              {t('reportIncident.addLocationDescription')}
             </Text>
 
             {incident.location && (
@@ -416,7 +422,7 @@ export default function ReportIncidentScreen({ navigation }) {
                   color={colors.success}
                 />
                 <Text style={styles.locationText}>
-                  Location added: {incident.location.lat.toFixed(4)},{' '}
+                  {t('reportIncident.locationAddedPrefix')} {incident.location.lat.toFixed(4)},{' '}
                   {incident.location.lng.toFixed(4)}
                 </Text>
                 <TouchableOpacity
@@ -434,7 +440,7 @@ export default function ReportIncidentScreen({ navigation }) {
             )}
 
             <Button
-              title={incident.location ? 'Update Location' : 'Add Current Location'}
+              title={incident.location ? t('reportIncident.updateLocation') : t('reportIncident.addCurrentLocation')}
               onPress={handleAddLocation}
               variant={incident.location ? 'secondary' : 'primary'}
               size="sm"
@@ -447,36 +453,36 @@ export default function ReportIncidentScreen({ navigation }) {
       {/* Step 3: Review */}
       {currentStep === 3 && (
         <View style={styles.step}>
-          <Text style={styles.stepTitle}>Review Your Report</Text>
+          <Text style={styles.stepTitle}>{t('reportIncident.step3Title')}</Text>
 
           <Card>
             <View style={styles.reviewItem}>
-              <Text style={styles.reviewLabel}>Title</Text>
+              <Text style={styles.reviewLabel}>{t('reportIncident.review.title')}</Text>
               <Text style={styles.reviewValue}>{incident.title}</Text>
             </View>
 
             <View style={styles.reviewDivider} />
 
             <View style={styles.reviewItem}>
-              <Text style={styles.reviewLabel}>Type</Text>
+              <Text style={styles.reviewLabel}>{t('reportIncident.review.type')}</Text>
               <Text style={styles.reviewValue}>
-                {GBV_TYPES.find(t => t.value === incident.type)?.label}
+                {translatedGbvTypes.find((item) => item.value === incident.type)?.label}
               </Text>
             </View>
 
             <View style={styles.reviewDivider} />
 
             <View style={styles.reviewItem}>
-              <Text style={styles.reviewLabel}>Description</Text>
+              <Text style={styles.reviewLabel}>{t('reportIncident.review.description')}</Text>
               <Text style={styles.reviewValue}>{incident.description}</Text>
             </View>
 
             <View style={styles.reviewDivider} />
 
             <View style={styles.reviewItem}>
-              <Text style={styles.reviewLabel}>Date & Time</Text>
+              <Text style={styles.reviewLabel}>{t('reportIncident.review.dateTime')}</Text>
               <Text style={styles.reviewValue}>
-                {incident.date} at {incident.time}
+                {t('reportIncident.review.atDateTime', { date: incident.date, time: incident.time })}
               </Text>
             </View>
 
@@ -484,9 +490,9 @@ export default function ReportIncidentScreen({ navigation }) {
               <>
                 <View style={styles.reviewDivider} />
                 <View style={styles.reviewItem}>
-                  <Text style={styles.reviewLabel}>Media Attached</Text>
+                  <Text style={styles.reviewLabel}>{t('reportIncident.review.mediaAttached')}</Text>
                   <Text style={styles.reviewValue}>
-                    {mediaItems.length} file(s)
+                    {t('reportIncident.review.mediaFiles', { count: mediaItems.length })}
                   </Text>
                 </View>
               </>
@@ -496,8 +502,8 @@ export default function ReportIncidentScreen({ navigation }) {
               <>
                 <View style={styles.reviewDivider} />
                 <View style={styles.reviewItem}>
-                  <Text style={styles.reviewLabel}>Location Shared</Text>
-                  <Text style={styles.reviewValue}>Yes</Text>
+                  <Text style={styles.reviewLabel}>{t('reportIncident.review.locationShared')}</Text>
+                  <Text style={styles.reviewValue}>{t('reportIncident.review.yes')}</Text>
                 </View>
               </>
             )}
@@ -505,8 +511,8 @@ export default function ReportIncidentScreen({ navigation }) {
 
           <Alert
             type="info"
-            title="Before You Submit"
-            message="Please ensure all information is accurate. Your report will be confidential."
+            title={t('reportIncident.beforeSubmitTitle')}
+            message={t('reportIncident.beforeSubmitMessage')}
             style={styles.alert}
           />
         </View>
@@ -516,7 +522,7 @@ export default function ReportIncidentScreen({ navigation }) {
       <View style={styles.buttonContainer}>
         {currentStep > 1 && (
           <Button
-            title="Back"
+            title={t('reportIncident.back')}
             onPress={() => setCurrentStep(currentStep - 1)}
             variant="outline"
             style={styles.navButton}
@@ -525,14 +531,14 @@ export default function ReportIncidentScreen({ navigation }) {
 
         {currentStep < 3 ? (
           <Button
-            title="Next"
+            title={t('reportIncident.next')}
             onPress={handleNextStep}
             style={[styles.navButton, currentStep === 1 && styles.fullButton]}
             disabled={currentStep === 1 && !isStepOneComplete()}
           />
         ) : (
           <Button
-            title="Submit Report"
+            title={t('reportIncident.submitReport')}
             onPress={handleSubmit}
             loading={loading}
             disabled={loading}

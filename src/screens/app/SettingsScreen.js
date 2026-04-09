@@ -9,27 +9,28 @@ import {
   Alert,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize, borderRadius } from '../../constants/colors';
 import { UserContext } from '../../context/UserContext';
-import { clearUser } from '../../services/storageService';
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function SettingsScreen({ navigation }) {
+  const { t } = useTranslation();
+  const { language, setAppLanguage } = useLanguage();
   const { user, setUser } = useContext(UserContext);
   const [notificationsEnabled, setNotificationsEnabled] = React.useState(true);
   const [locationEnabled, setLocationEnabled] = React.useState(false);
-  const [darkModeEnabled, setDarkModeEnabled] = React.useState(false);
 
-  const handleLogout = async () => {
+  const handleClearData = () => {
     Alert.alert(
-      'Sign Out',
-      'Are you sure you want to sign out?',
+      t('settings.clearDataConfirmTitle'),
+      t('settings.clearDataConfirmMessage'),
       [
-        { text: 'Cancel', onPress: () => {}, style: 'cancel' },
+        { text: t('common.cancel'), style: 'cancel' },
         {
-          text: 'Sign Out',
-          onPress: async () => {
-            await clearUser();
-            setUser(null);
+          text: t('settings.clear'),
+          onPress: () => {
+            Alert.alert(t('common.success'), t('settings.allDataCleared'));
           },
           style: 'destructive',
         },
@@ -37,22 +38,9 @@ export default function SettingsScreen({ navigation }) {
     );
   };
 
-  const handleClearData = () => {
-    Alert.alert(
-      'Clear All Data',
-      'This will delete all saved reports and data. This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear',
-          onPress: () => {
-            // Add clear data logic here
-            Alert.alert('Success', 'All data has been cleared.');
-          },
-          style: 'destructive',
-        },
-      ]
-    );
+  const changeLanguage = async (nextLanguage) => {
+    await setAppLanguage(nextLanguage);
+    Alert.alert(t('common.success'), t('language.changed'));
   };
 
   const SettingRow = ({ icon, label, value, onPress }) => (
@@ -90,58 +78,96 @@ export default function SettingsScreen({ navigation }) {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* ACCOUNT SECTION */}
       <View style={styles.section}>
-        <SectionTitle title="ACCOUNT" />
+        <SectionTitle title={t('settings.account')} />
         <View style={styles.card}>
           <SettingRow
             icon="account-circle"
-            label="Edit Profile"
+            label={t('settings.editProfile')}
             value={<MaterialCommunityIcons name="chevron-right" size={24} color={colors.gray} />}
             onPress={() => navigation.navigate('Profile')}
           />
           <View style={styles.divider} />
           <SettingRow
             icon="email"
-            label="Email"
+            label={t('settings.email')}
             value={
               <Text style={styles.valueText}>
-                {user?.email || 'Not provided'}
+                {user?.email || t('common.notProvided')}
               </Text>
             }
           />
           <View style={styles.divider} />
           <SettingRow
             icon="phone"
-            label="Phone"
+            label={t('settings.phone')}
             value={
               <Text style={styles.valueText}>
-                {user?.phone || 'Not provided'}
+                {user?.phone || t('common.notProvided')}
               </Text>
             }
           />
         </View>
       </View>
 
+      {/* LANGUAGE SECTION */}
+      <View style={styles.section}>
+        <SectionTitle title={t('language.section')} />
+        <View style={styles.card}>
+          <TouchableOpacity
+            style={styles.settingRow}
+            activeOpacity={0.8}
+            onPress={() => changeLanguage('en')}
+          >
+            <View style={styles.settingLeft}>
+              <MaterialCommunityIcons name="alphabetical" size={24} color={colors.primary} />
+              <Text style={styles.settingLabel}>{t('language.english')}</Text>
+            </View>
+            <MaterialCommunityIcons
+              name={language === 'en' ? 'radiobox-marked' : 'radiobox-blank'}
+              size={22}
+              color={language === 'en' ? colors.primary : colors.gray}
+            />
+          </TouchableOpacity>
+          <View style={styles.divider} />
+          <TouchableOpacity
+            style={styles.settingRow}
+            activeOpacity={0.8}
+            onPress={() => changeLanguage('sw')}
+          >
+            <View style={styles.settingLeft}>
+              <MaterialCommunityIcons name="translate" size={24} color={colors.primary} />
+              <Text style={styles.settingLabel}>{t('language.swahili')}</Text>
+            </View>
+            <MaterialCommunityIcons
+              name={language === 'sw' ? 'radiobox-marked' : 'radiobox-blank'}
+              size={22}
+              color={language === 'sw' ? colors.primary : colors.gray}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
       {/* NOTIFICATIONS SECTION */}
       <View style={styles.section}>
-        <SectionTitle title="NOTIFICATIONS" />
+        <SectionTitle title={t('settings.notifications')} />
         <View style={styles.card}>
           <ToggleSetting
             icon="bell-outline"
-            label="Push Notifications"
+            label={t('settings.pushNotifications')}
             value={notificationsEnabled}
             onChange={setNotificationsEnabled}
           />
           <View style={styles.divider} />
           <ToggleSetting
             icon="email-outline"
-            label="Email Alerts"
+            label={t('settings.emailAlerts')}
             value={notificationsEnabled}
             onChange={setNotificationsEnabled}
           />
           <View style={styles.divider} />
           <ToggleSetting
             icon="sms"
-            label="SMS Alerts"
+            label={t('settings.smsAlerts')}
             value={notificationsEnabled}
             onChange={setNotificationsEnabled}
           />
@@ -150,59 +176,52 @@ export default function SettingsScreen({ navigation }) {
 
       {/* PRIVACY & SECURITY */}
       <View style={styles.section}>
-        <SectionTitle title="PRIVACY & SECURITY" />
+        <SectionTitle title={t('settings.privacy')} />
         <View style={styles.card}>
           <ToggleSetting
             icon="map-marker-outline"
-            label="Location Tracking"
+            label={t('settings.locationTracking')}
             value={locationEnabled}
             onChange={setLocationEnabled}
           />
           <View style={styles.divider} />
-          <ToggleSetting
-            icon="moon-waning-crescent"
-            label="Dark Mode"
-            value={darkModeEnabled}
-            onChange={setDarkModeEnabled}
-          />
-          <View style={styles.divider} />
           <SettingRow
             icon="lock-outline"
-            label="Change Password"
+            label={t('settings.changePassword')}
             value={<MaterialCommunityIcons name="chevron-right" size={24} color={colors.gray} />}
-            onPress={() => Alert.alert('Change Password', 'Password change feature coming soon')}
+            onPress={() => Alert.alert(t('settings.changePassword'), t('settings.changePasswordSoon'))}
           />
         </View>
       </View>
 
       {/* APP SECTION */}
       <View style={styles.section}>
-        <SectionTitle title="APP" />
+        <SectionTitle title={t('settings.app')} />
         <View style={styles.card}>
           <SettingRow
             icon="information-outline"
-            label="About"
+            label={t('settings.about')}
             value={<Text style={styles.versionText}>v1.0.0</Text>}
-            onPress={() => Alert.alert('About', 'ZYGA - GBV Reporting and Support App\nVersion 1.0.0')}
+            onPress={() => Alert.alert(t('settings.about'), `${t('common.appName')}\n${t('settings.versionLabel')} 1.0.0`)}
           />
           <View style={styles.divider} />
           <SettingRow
             icon="file-document-outline"
-            label="Privacy Policy"
+            label={t('settings.privacyPolicy')}
             value={<MaterialCommunityIcons name="open-in-new" size={20} color={colors.gray} />}
-            onPress={() => Alert.alert('Privacy Policy', 'Privacy policy content here')}
+            onPress={() => Alert.alert(t('settings.privacyPolicy'), t('settings.privacyPolicy'))}
           />
           <View style={styles.divider} />
           <SettingRow
             icon="text-box-outline"
-            label="Terms of Service"
+            label={t('settings.terms')}
             value={<MaterialCommunityIcons name="open-in-new" size={20} color={colors.gray} />}
-            onPress={() => Alert.alert('Terms of Service', 'Terms of service content here')}
+            onPress={() => Alert.alert(t('settings.terms'), t('settings.terms'))}
           />
           <View style={styles.divider} />
           <SettingRow
             icon="lifebuoy"
-            label="Help & Support"
+            label={t('settings.helpSupport')}
             value={<MaterialCommunityIcons name="chevron-right" size={24} color={colors.gray} />}
             onPress={() => navigation.navigate('Feedback')}
           />
@@ -211,40 +230,28 @@ export default function SettingsScreen({ navigation }) {
 
       {/* DATA MANAGEMENT */}
       <View style={styles.section}>
-        <SectionTitle title="DATA" />
+        <SectionTitle title={t('settings.data')} />
         <View style={styles.card}>
           <SettingRow
             icon="trash-can-outline"
-            label="Clear Cache"
+            label={t('settings.clearCache')}
             value={<MaterialCommunityIcons name="chevron-right" size={24} color={colors.gray} />}
-            onPress={() => Alert.alert('Success', 'Cache cleared successfully')}
+            onPress={() => Alert.alert(t('common.success'), t('settings.cacheCleared'))}
           />
           <View style={styles.divider} />
           <SettingRow
             icon="close-circle-outline"
-            label="Clear All Data"
+            label={t('settings.clearData')}
             value={<MaterialCommunityIcons name="chevron-right" size={24} color={colors.danger} />}
             onPress={handleClearData}
           />
         </View>
       </View>
 
-      {/* LOGOUT */}
-      <View style={styles.section}>
-        <TouchableOpacity
-          style={styles.logoutButtonLarge}
-          onPress={handleLogout}
-          activeOpacity={0.85}
-        >
-          <MaterialCommunityIcons name="logout" size={24} color={colors.danger} />
-          <Text style={styles.logoutButtonText}>Sign Out</Text>
-        </TouchableOpacity>
-      </View>
-
       {/* FOOTER */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>ZYGA v1.0.0</Text>
-        <Text style={styles.footerSubText}>© 2024 - Zanzibar Youth Gender Alliance</Text>
+        <Text style={styles.footerSubText}>{t('settings.footerOrg')}</Text>
       </View>
     </ScrollView>
   );

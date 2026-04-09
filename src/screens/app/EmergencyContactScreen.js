@@ -8,12 +8,15 @@ import {
   Linking,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize, EMERGENCY_CONTACTS } from '../../constants/colors';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Alert from '../../components/Alert';
 
 export default function EmergencyContactScreen() {
+  const { t } = useTranslation();
+
   const handleCall = (phone) => {
     Linking.openURL(`tel:${phone}`);
   };
@@ -27,14 +30,14 @@ export default function EmergencyContactScreen() {
       {/* Alert Banner */}
       <Alert
         type="error"
-        title="Emergency Contact"
-        message="In immediate danger? Call emergency services now!"
+        title={t('emergency.alertTitle')}
+        message={t('emergency.alertMessage')}
         style={styles.emergencyAlert}
       />
 
       {/* Quick Call Buttons */}
       <View style={styles.quickCallSection}>
-        <Text style={styles.sectionTitle}>One-Tap Emergency Call</Text>
+        <Text style={styles.sectionTitle}>{t('emergency.oneTapTitle')}</Text>
         <View style={styles.quickCallButtons}>
           <TouchableOpacity
             style={[styles.quickButton, styles.policeButton]}
@@ -45,7 +48,7 @@ export default function EmergencyContactScreen() {
               size={28}
               color={colors.white}
             />
-            <Text style={styles.quickButtonLabel}>Police</Text>
+            <Text style={styles.quickButtonLabel}>{t('emergency.police')}</Text>
             <Text style={styles.quickButtonNumber}>112</Text>
           </TouchableOpacity>
 
@@ -58,7 +61,7 @@ export default function EmergencyContactScreen() {
               size={28}
               color={colors.white}
             />
-            <Text style={styles.quickButtonLabel}>Medical</Text>
+            <Text style={styles.quickButtonLabel}>{t('emergency.medical')}</Text>
             <Text style={styles.quickButtonNumber}>995</Text>
           </TouchableOpacity>
 
@@ -71,7 +74,7 @@ export default function EmergencyContactScreen() {
               size={28}
               color={colors.white}
             />
-            <Text style={styles.quickButtonLabel}>Fire</Text>
+            <Text style={styles.quickButtonLabel}>{t('emergency.fire')}</Text>
             <Text style={styles.quickButtonNumber}>114</Text>
           </TouchableOpacity>
         </View>
@@ -79,14 +82,22 @@ export default function EmergencyContactScreen() {
 
       {/* Emergency Contacts List */}
       <View style={styles.contactsSection}>
-        <Text style={styles.sectionTitle}>Emergency Services</Text>
+        <Text style={styles.sectionTitle}>{t('emergency.services')}</Text>
 
         {EMERGENCY_CONTACTS.map((contact) => (
+          (() => {
+            const localizedContact = {
+              ...contact,
+              name: t(`emergency.contacts.${contact.id}.name`, { defaultValue: contact.name }),
+              country: t(`emergency.contacts.${contact.id}.country`, { defaultValue: contact.country }),
+            };
+
+            return (
           <Card key={contact.id} style={styles.contactCard}>
             <View style={styles.contactHeader}>
               <View>
-                <Text style={styles.contactName}>{contact.name}</Text>
-                <Text style={styles.contactCountry}>{contact.country}</Text>
+                <Text style={styles.contactName}>{localizedContact.name}</Text>
+                <Text style={styles.contactCountry}>{localizedContact.country}</Text>
               </View>
               <View style={styles.contactBadge}>
                 <MaterialCommunityIcons
@@ -98,20 +109,20 @@ export default function EmergencyContactScreen() {
             </View>
 
             <View style={styles.contactNumber}>
-              <Text style={styles.numberLabel}>Phone:</Text>
+              <Text style={styles.numberLabel}>{t('settings.phone')}:</Text>
               <Text style={styles.numberValue}>{contact.phone}</Text>
             </View>
 
             <View style={styles.contactActions}>
               <Button
-                title="Call"
+                title={t('supportServices.call')}
                 onPress={() => handleCall(contact.phone)}
                 variant="primary"
                 size="sm"
                 style={styles.actionButton}
               />
               <Button
-                title="Text"
+                title={t('emergency.text')}
                 onPress={() => handleSMS(contact.phone)}
                 variant="outline"
                 size="sm"
@@ -119,12 +130,14 @@ export default function EmergencyContactScreen() {
               />
             </View>
           </Card>
+            );
+          })()
         ))}
       </View>
 
       {/* Tips Section */}
       <Card style={styles.tipsCard}>
-        <Text style={styles.tipsTitle}>Safety Tips</Text>
+        <Text style={styles.tipsTitle}>{t('emergency.safetyTips')}</Text>
         <View style={styles.tipItem}>
           <MaterialCommunityIcons
             name="check-circle-outline"
@@ -132,7 +145,7 @@ export default function EmergencyContactScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Stay calm and provide clear information to emergency responders
+            {t('emergency.tip1')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -142,7 +155,7 @@ export default function EmergencyContactScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Go to a safe place before calling if possible
+            {t('emergency.tip2')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -152,7 +165,7 @@ export default function EmergencyContactScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Keep someone you trust informed about your location
+            {t('emergency.tip3')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -162,7 +175,7 @@ export default function EmergencyContactScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Save important phone numbers in your contacts
+            {t('emergency.tip4')}
           </Text>
         </View>
       </Card>
@@ -175,9 +188,9 @@ export default function EmergencyContactScreen() {
           color={colors.primary}
           style={styles.supportIcon}
         />
-        <Text style={styles.supportTitle}>After Reaching Safety</Text>
+        <Text style={styles.supportTitle}>{t('emergency.afterSafetyTitle')}</Text>
         <Text style={styles.supportText}>
-          Connect with support services, counselors, and legal aid to help you recover and plan next steps.
+          {t('emergency.afterSafetyText')}
         </Text>
       </Card>
     </ScrollView>

@@ -1,0 +1,543 @@
+{
+  "common": {
+    "appName": "ZYGA",
+    "welcome": "Welcome",
+    "anonymousUser": "Anonymous User",
+    "guest": "Guest",
+    "supportMember": "Support Member",
+    "notProvided": "Not provided",
+    "cancel": "Cancel",
+    "success": "Success",
+    "continue": "Continue"
+  },
+  "greeting": {
+    "morning": "Good Morning",
+    "afternoon": "Good Afternoon",
+    "evening": "Good Evening"
+  },
+  "drawer": {
+    "dashboard": "Dashboard",
+    "reportNow": "Report Now",
+    "getHelp": "Get Help",
+    "localLaws": "Local Laws",
+    "emergency": "Emergency",
+    "supportServices": "Support Services",
+    "stories": "Stories",
+    "addStory": "Add Story",
+    "information": "Information",
+    "internationalPolicies": "International Policies",
+    "humanRights": "Human Rights",
+    "profile": "Profile",
+    "aboutUs": "About Us",
+    "settings": "Settings",
+    "language": "Language",
+    "feedback": "Feedback",
+    "logout": "Sign Out"
+  },
+  "tabs": {
+    "home": "Home",
+    "help": "Help",
+    "learn": "Learn",
+    "services": "Services",
+    "stories": "Stories",
+    "aboutUs": "About Us"
+  },
+  "home": {
+    "safetyTitle": "Your Safety Matters",
+    "safetyDescription": "We're here to support you. Report confidentially.",
+    "resources": "Resources",
+    "resourceGbvTitle": "What is GBV?",
+    "resourceGbvDesc": "Learn about different forms of gender-based violence",
+    "resourceRightsTitle": "Your Rights",
+    "resourceRightsDesc": "Know your legal rights and protections",
+    "resourceStepsTitle": "First Steps",
+    "resourceStepsDesc": "What to do if you or someone you know is affected",
+    "recentActivity": "Recent Activity",
+    "seeAll": "See All",
+    "noActivity": "No recent activity yet",
+    "supportTitle": "Need Immediate Support?",
+    "supportDescription": "Connect with counselors and local services",
+    "getSupport": "Get Support",
+    "sendFeedback": "Send Feedback"
+  },
+  "auth": {
+    "subtitle": "GBV Reporting & Support",
+    "login": "Login",
+    "register": "Create Account",
+    "email": "Email Address",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "or": "OR",
+    "continueAnonymous": "Continue as Anonymous",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "helpText": "This app is designed to support survivors of gender-based violence. Your safety and privacy are our priority.",
+    "loginSuccess": "Login Successful",
+    "welcomeBack": "Welcome back, {{name}}!",
+    "loginFailed": "Login Failed",
+    "invalidCredentials": "Invalid email or password",
+    "anonWelcomeTitle": "Welcome",
+    "anonWelcomeMessage": "You are now using anonymous mode",
+    "anonFailed": "Failed to continue as anonymous",
+    "onboardingTitle": "Zanzibar Youth Gender Alliance",
+    "onboardingDescription": "A safe platform for reporting gender-based violence and accessing support services",
+    "howHelps": "How ZYGA Helps",
+    "featureReportTitle": "Report Incidents",
+    "featureReportDesc": "Safely report gender-based violence incidents with media attachments",
+    "featureSupportTitle": "Get Support",
+    "featureSupportDesc": "Access psychological support and connect with counselors",
+    "featureServicesTitle": "Find Services",
+    "featureServicesDesc": "Locate nearby police, hospitals, and NGOs for immediate help",
+    "featureRightsTitle": "Learn Rights",
+    "featureRightsDesc": "Understand your rights and access legal information",
+    "trustTitle": "Your Safety is Our Priority",
+    "trustText": "• Completely confidential and secure\n• Your data is encrypted\n• Anonymous reporting option available\n• No one can access your information without permission",
+    "terms": "By using ZYGA, you agree to our Terms of Service and Privacy Policy",
+    "accountCreated": "Account Created",
+    "registerFailed": "Registration Failed",
+    "registerFailedMessage": "Failed to create account",
+    "mustAgreeTerms": "You must agree to terms and conditions",
+    "joinCommunity": "Join our safe community",
+    "fullName": "Full Name",
+    "fullNamePlaceholder": "Enter your full name",
+    "passwordHint": "At least 6 characters with uppercase & number",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Re-enter password",
+    "iAgree": "I agree to the",
+    "and": "and",
+    "alreadyHaveAccount": "Already have an account?",
+    "dataSecure": "Your data is encrypted and secured. We never share your information."
+  },
+  "language": {
+    "title": "Select Language",
+    "subtitle": "Choose your preferred language",
+    "english": "English",
+    "swahili": "Kiswahili",
+    "section": "Language",
+    "changed": "Language updated"
+  },
+  "settings": {
+    "account": "ACCOUNT",
+    "notifications": "NOTIFICATIONS",
+    "privacy": "PRIVACY & SECURITY",
+    "app": "APP",
+    "data": "DATA",
+    "editProfile": "Edit Profile",
+    "email": "Email",
+    "phone": "Phone",
+    "pushNotifications": "Push Notifications",
+    "emailAlerts": "Email Alerts",
+    "smsAlerts": "SMS Alerts",
+    "locationTracking": "Location Tracking",
+    "darkMode": "Dark Mode",
+    "changePassword": "Change Password",
+    "about": "About",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "helpSupport": "Help & Support",
+    "versionLabel": "Version",
+    "footerOrg": "© 2024 - Zanzibar Youth Gender Alliance",
+    "clearCache": "Clear Cache",
+    "clearData": "Clear All Data",
+    "signOut": "Sign Out",
+    "signOutConfirmTitle": "Sign Out",
+    "signOutConfirmMessage": "Are you sure you want to sign out?",
+    "clearDataConfirmTitle": "Clear All Data",
+    "clearDataConfirmMessage": "This will delete all saved reports and data. This action cannot be undone.",
+    "clear": "Clear",
+    "cacheCleared": "Cache cleared successfully",
+    "allDataCleared": "All data has been cleared.",
+    "changePasswordSoon": "Password change feature coming soon"
+  },
+  "feedback": {
+    "ratingRequiredTitle": "Rating Required",
+    "ratingRequiredMessage": "Please select a rating",
+    "thankYouTitle": "Thank You",
+    "thankYouMessage": "Your feedback helps us improve the app",
+    "errorTitle": "Error",
+    "errorMessage": "Failed to send feedback",
+    "headerTitle": "We Value Your Feedback",
+    "headerSubtitle": "Help us improve ZYGA to better serve you",
+    "rateExperience": "Rate Your Experience",
+    "yourFeedback": "Your Feedback",
+    "placeholder": "Tell us what you think...",
+    "infoAnonymous": "Anonymous feedback is welcome",
+    "infoActOnFeedback": "We read and act on all feedback",
+    "infoPrivacy": "Your privacy is protected"
+  },
+  "safeVoice": {
+    "headerTitle": "Safe Voice - Stories",
+    "headerSubtitle": "Read experiences from survivors",
+    "share": "Share",
+    "infoText": "Your story can inspire and help others. Share your journey if you feel comfortable.",
+    "loginToShare": "Login to Share",
+    "readOnlyTitle": "Read-Only Mode",
+    "readOnlyText": "Anonymous users can read stories. Please create an account and log in to share yours.",
+    "loginRequiredTitle": "Account Required",
+    "loginRequiredMessage": "Please create an account and log in before you can add a story.",
+    "goToAuth": "Create Account / Login",
+    "stories": {
+      "1": {
+        "title": "Finding My Voice",
+        "author": "Anonymous",
+        "content": "After years of suffering in silence, I finally found the courage to speak out. This app helped me connect with support services that changed my life."
+      },
+      "2": {
+        "title": "My Journey to Healing",
+        "author": "Sarah",
+        "content": "The psychological support section helped me understand my trauma better. I am now working with a counselor and see a brighter future ahead."
+      },
+      "3": {
+        "title": "Breaking Free",
+        "author": "Jane",
+        "content": "I used this app to document my experiences and report to authorities. I am grateful for the resources that helped me take action."
+      }
+    }
+  },
+  "supportServices": {
+    "loading": "Loading services...",
+    "subtitle": "Find help near you",
+    "all": "All",
+    "police": "Police",
+    "hospital": "Hospital",
+    "ngo": "NGO",
+    "call": "Call",
+    "items": {
+      "1": {
+        "name": "FIDA Tanzania",
+        "description": "Legal aid and human rights for women",
+        "address": "Dar es Salaam",
+        "hours": "8:00 AM - 5:00 PM"
+      },
+      "2": {
+        "name": "Dar es Salaam Police Station",
+        "description": "Main police station for reporting crimes",
+        "address": "Dar es Salaam",
+        "hours": "24/7"
+      },
+      "3": {
+        "name": "Muhimbili National Hospital",
+        "description": "Medical services and emergency care",
+        "address": "Dar es Salaam",
+        "hours": "24/7"
+      },
+      "4": {
+        "name": "TAMWA",
+        "description": "Women media and advocacy organization",
+        "address": "Dar es Salaam",
+        "hours": "8:00 AM - 5:00 PM"
+      },
+      "5": {
+        "name": "Zanzibar Hospital",
+        "description": "Main hospital in Zanzibar",
+        "address": "Zanzibar",
+        "hours": "24/7"
+      }
+    }
+  },
+  "psych": {
+    "confidentialTitle": "Confidential Support",
+    "confidentialDescription": "Chat with our AI support bot or request to speak with a counselor",
+    "needMoreHelp": "Need More Help?",
+    "callCounselor": "Call Counselor",
+    "findServices": "Find Services",
+    "typeMessage": "Type your message...",
+    "botWelcome": "Hello! I'm here to listen and provide support. How are you feeling today?",
+    "botFallback": "I hear you. You are not alone, and support is available.",
+    "botResponses": [
+      "I understand how you're feeling. You are not alone in this.",
+      "That sounds difficult. Would you like to know about local support services?",
+      "Your safety is important. Have you considered reporting this to authorities?",
+      "It's okay to feel confused or scared. These are normal reactions.",
+      "Would you like to talk to a professional counselor?",
+      "Let me share some resources that might help you."
+    ]
+  },
+  "emergency": {
+    "alertTitle": "Emergency Contact",
+    "alertMessage": "In immediate danger? Call emergency services now!",
+    "oneTapTitle": "One-Tap Emergency Call",
+    "police": "Police",
+    "medical": "Medical",
+    "fire": "Fire",
+    "services": "Emergency Services",
+    "text": "Text",
+    "safetyTips": "Safety Tips",
+    "tip1": "Stay calm and provide clear information to emergency responders",
+    "tip2": "Go to a safe place before calling if possible",
+    "tip3": "Keep someone you trust informed about your location",
+    "tip4": "Save important phone numbers in your contacts",
+    "afterSafetyTitle": "After Reaching Safety",
+    "afterSafetyText": "Connect with support services, counselors, and legal aid to help you recover and plan next steps.",
+    "contacts": {
+      "1": {
+        "name": "Police Emergency",
+        "country": "Tanzania"
+      },
+      "2": {
+        "name": "Emergency Medical",
+        "country": "Tanzania"
+      },
+      "3": {
+        "name": "Fire & Rescue",
+        "country": "Tanzania"
+      }
+    }
+  },
+  "profile": {
+    "user": "User",
+    "anonymousMode": "Anonymous Mode",
+    "profileInformation": "Profile Information",
+    "editProfile": "Edit Profile",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "Enter your full name",
+    "emailPlaceholder": "Enter your email address",
+    "phonePlaceholder": "Enter your phone number",
+    "saveChanges": "Save Changes",
+    "profileUpdated": "Profile updated successfully",
+    "profileUpdateFailed": "Unable to update your profile",
+    "memberSince": "Member Since",
+    "unknown": "Unknown",
+    "notifications": "Notifications",
+    "privacySecurity": "Privacy & Security",
+    "termsConditions": "Terms & Conditions",
+    "appTagline": "Gender-Based Violence Reporting & Support",
+    "aboutText": "ZYGA is a safe platform designed to support survivors of gender-based violence. We provide reporting, counseling, and resource connections with utmost confidentiality.",
+    "needHelp": "Need Help?",
+    "helpText": "Contact our support team or visit our FAQ section for common questions."
+  },
+  "aboutUs": {
+    "heroText": "A safe and confidential platform for reporting, learning, and finding support.",
+    "missionTitle": "Our Mission",
+    "missionText": "To provide survivors and communities with a secure space to report GBV, access trusted information, and connect with support.",
+    "whatWeDoTitle": "What We Do",
+    "whatWeDoText": "We combine reporting tools, support services, legal education, and survivor stories in one place.",
+    "privacyTitle": "Privacy First",
+    "privacyText": "We respect anonymity and keep your personal information protected.",
+    "contactTitle": "Need Help or Want to Report?",
+    "contactText": "Use the app to report an incident, read support resources, or reach out to counselors and services.",
+    "getStarted": "Report Now",
+    "needHelp": "Go to Support"
+  },
+  "laws": {
+    "headerSubtitle": "Tanzania & Zanzibar GBV Legal Protections",
+    "infoBanner": "These laws protect your rights. Tap any law to learn more.",
+    "tanzania": "Tanzania",
+    "zanzibar": "Zanzibar",
+    "needLegalHelp": "Need Legal Help?",
+    "helpText": "Contact FIDA Tanzania or local legal aid organizations for assistance with your case.",
+    "items": {
+      "1": {
+        "title": "Law of Marriage Act, 1971",
+        "description": "Provides for registration of marriages and annulment",
+        "content": "This act establishes the legal framework for marriage in Tanzania, including rights of spouses and procedures for divorce."
+      },
+      "2": {
+        "title": "HIV and AIDS (Prevention and Control) Act, 2008",
+        "description": "Protects rights of people living with HIV/AIDS",
+        "content": "Includes provisions to prevent discrimination and sexual violence, particularly against women and vulnerable persons."
+      },
+      "3": {
+        "title": "Penal Code",
+        "description": "Criminal legislation including provisions on sexual offences",
+        "content": "Sections 130-145 address sexual violence, although reforms are ongoing to strengthen protections."
+      },
+      "4": {
+        "title": "Sexual Offences Special Provisions Act, 1998",
+        "description": "Addresses sexual violence and exploitation",
+        "content": "Establishes special provisions for prosecution of sexual offences and protects victims."
+      },
+      "5": {
+        "title": "Law of Personal Status, 1961",
+        "description": "Islamic law governing personal status matters",
+        "content": "Governs marriage, divorce, inheritance under Islamic law in Zanzibar."
+      },
+      "6": {
+        "title": "Penal Code",
+        "description": "Criminal legislation with provisions on sexual crimes",
+        "content": "Contains sections addressing sexual violence and assault with specific cultural considerations."
+      }
+    }
+  },
+  "information": {
+    "headerTitle": "Education & Information",
+    "headerSubtitle": "Learn about your rights and protections",
+    "infoBanner": "This information is provided for educational purposes to help you understand your rights and available protections.",
+    "policiesItems": {
+      "1": {
+        "title": "Istanbul Convention",
+        "desc": "Council of Europe"
+      },
+      "2": {
+        "title": "CEDAW",
+        "desc": "UN Convention"
+      },
+      "3": {
+        "title": "Beijing Declaration",
+        "desc": "UN Platform"
+      }
+    },
+    "rightsItems": {
+      "1": {
+        "title": "Right to Life",
+        "desc": "Protected by law"
+      },
+      "2": {
+        "title": "Freedom from Torture",
+        "desc": "Fundamental right"
+      },
+      "3": {
+        "title": "Equality Rights",
+        "desc": "Non-discrimination"
+      }
+    }
+  },
+  "policies": {
+    "headerSubtitle": "Global agreements protecting women's rights",
+    "infoBanner": "These international policies provide a framework for protecting women's rights globally.",
+    "learnMore": "Learn More",
+    "resourceText": "Visit UN Women for more information",
+    "items": {
+      "1": {
+        "title": "Istanbul Convention",
+        "organization": "Council of Europe",
+        "content": "The Convention on preventing and combating violence against women and domestic violence is a landmark treaty against human rights violations."
+      },
+      "2": {
+        "title": "UN Convention on the Elimination of All Forms of Discrimination Against Women (CEDAW)",
+        "organization": "United Nations",
+        "content": "An international bill of rights for women that emphasizes their freedom from sexual violence and exploitation."
+      },
+      "3": {
+        "title": "Beijing Declaration and Platform for Action",
+        "organization": "United Nations",
+        "content": "A comprehensive framework for advancing gender equality and addressing violence against women globally."
+      }
+    }
+  },
+  "rights": {
+    "headerSubtitle": "Fundamental rights that protect you",
+    "declarationTitle": "Universal Declaration of Human Rights",
+    "declarationText": "All humans are born free and equal in dignity and rights. These rights are inalienable and protected by international law.",
+    "knowRights": "Know Your Rights",
+    "tip1": "Your rights cannot be taken away because of your gender",
+    "tip2": "You have the right to safety and protection from harm",
+    "tip3": "You deserve respect, dignity, and equal opportunity",
+    "tip4": "Seek help - there are resources and support available",
+    "supportTitle": "You Deserve Support",
+    "supportText": "If your rights are being violated, reach out to support organizations and authorities who can help.",
+    "items": {
+      "1": {
+        "title": "Right to Life",
+        "description": "Everyone has the inherent right to life protected by law",
+        "content": "This fundamental right includes protection from all forms of violence and threats to personal safety."
+      },
+      "2": {
+        "title": "Right to Freedom from Torture and Cruel Treatment",
+        "description": "No one shall be subjected to torture or cruel, inhuman treatment",
+        "content": "Sexual violence, domestic violence, and physical abuse constitute violations of this right."
+      },
+      "3": {
+        "title": "Right to Equality and Non-Discrimination",
+        "description": "All people are equal before the law regardless of sex",
+        "content": "Gender-based discrimination that leads to violence is a violation of this fundamental right."
+      },
+      "4": {
+        "title": "Right to Physical Integrity",
+        "description": "Every person has the right to preserve their bodily integrity",
+        "content": "Protection from sexual violence and assault is essential to protecting bodily autonomy."
+      }
+    }
+  },
+  "addStory": {
+    "permissionDeniedTitle": "Permission Denied",
+    "permissionDeniedMessage": "We need permission to access your photos",
+    "storySharedTitle": "Story Shared",
+    "storySharedMessage": "Thank you for sharing your story. It will inspire others.",
+    "errorTitle": "Error",
+    "errorMessage": "Failed to share story",
+    "infoText": "Share your story with consent. You can remain anonymous.",
+    "nameLabel": "Your Name or 'Anonymous'",
+    "namePlaceholder": "How would you like to be credited?",
+    "titleLabel": "Story Title",
+    "titlePlaceholder": "Give your story a title",
+    "storyLabel": "Your Story",
+    "storyPlaceholder": "Share your experience...",
+    "addPhotoOptional": "Add Photo (Optional)",
+    "addPhoto": "Add Photo",
+    "changePhoto": "Change Photo",
+    "privacyText": "Your story is important. We moderate all submissions to ensure safety and respect.",
+    "shareStory": "Share Story"
+  },
+  "reportIncident": {
+    "permissionDeniedTitle": "Permission Denied",
+    "photoPermissionDeniedMessage": "We need permission to access your photos",
+    "locationPermissionDeniedMessage": "We need permission to access your location",
+    "locationAddedTitle": "Location Added",
+    "locationAddedMessage": "Your current location has been added",
+    "locationErrorTitle": "Location Error",
+    "locationErrorMessage": "Could not get your location",
+    "noMediaOrLocationTitle": "No Media or Location",
+    "noMediaOrLocationMessage": "Consider adding media (photos) or your location for better support",
+    "reportSubmittedTitle": "Report Submitted",
+    "reportSubmittedMessage": "Your incident has been recorded. Support services will contact you soon.",
+    "submissionFailedTitle": "Submission Failed",
+    "submissionFailedMessage": "Failed to submit your report",
+    "submitting": "Submitting your report...",
+    "steps": {
+      "details": "Details",
+      "mediaLocation": "Media & Location",
+      "review": "Review"
+    },
+    "step1Title": "Tell Us What Happened",
+    "incidentTitleLabel": "Incident Title",
+    "incidentTitlePlaceholder": "Brief summary of the incident",
+    "detailedDescriptionLabel": "Detailed Description",
+    "detailedDescriptionPlaceholder": "Provide more details about what happened",
+    "typeOfGbvLabel": "Type of GBV",
+    "typeOfGbvPlaceholder": "Select the type of violence",
+    "dateOfIncidentLabel": "Date of Incident",
+    "datePlaceholder": "Date",
+    "timeOfIncidentLabel": "Time of Incident",
+    "timePlaceholder": "Time",
+    "step2Title": "Add Media & Location (Optional)",
+    "uploadMediaTitle": "Upload Media",
+    "uploadMediaDescription": "Add photos, videos, or audio recordings as evidence",
+    "addPhoto": "Add Photo",
+    "addLocationTitle": "Add Location",
+    "addLocationDescription": "Your current location helps services find you",
+    "locationAddedPrefix": "Location added:",
+    "updateLocation": "Update Location",
+    "addCurrentLocation": "Add Current Location",
+    "step3Title": "Review Your Report",
+    "beforeSubmitTitle": "Before You Submit",
+    "beforeSubmitMessage": "Please ensure all information is accurate. Your report will be confidential.",
+    "back": "Back",
+    "next": "Next",
+    "submitReport": "Submit Report",
+    "types": {
+      "physical": "Physical Violence",
+      "sexual": "Sexual Violence",
+      "psychological": "Psychological Abuse",
+      "economic": "Economic Abuse",
+      "harassment": "Harassment",
+      "other": "Other"
+    },
+    "mediaTypes": {
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio"
+    },
+    "review": {
+      "title": "Title",
+      "type": "Type",
+      "description": "Description",
+      "dateTime": "Date & Time",
+      "atDateTime": "{{date}} at {{time}}",
+      "mediaAttached": "Media Attached",
+      "mediaFiles": "{{count}} file(s)",
+      "locationShared": "Location Shared",
+      "yes": "Yes"
+    }
+  }
+}

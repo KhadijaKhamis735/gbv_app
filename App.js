@@ -7,9 +7,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import AppNavigator from './src/navigation/AppNavigator';
 import { UserContext } from './src/context/UserContext';
+import './src/localization/i18n';
+import i18n from './src/localization/i18n';
+import LanguageSelectionScreen from './src/screens/common/LanguageSelectionScreen';
+import {
+  LanguageContext,
+  LANGUAGE_STORAGE_KEY,
+  LANGUAGE_SELECTED_KEY,
+} from './src/context/LanguageContext';
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [language, setLanguage] = useState('en');
+  const [hasSelectedLanguage, setHasSelectedLanguage] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,16 +28,35 @@ export default function App() {
 
   const bootstrapAsync = async () => {
     try {
-      // Check if user is already authenticated
-      const storedUser = await AsyncStorage.getItem('user');
+      const [storedUser, storedLanguage, selectedLanguageFlag] = await Promise.all([
+        AsyncStorage.getItem('user'),
+        AsyncStorage.getItem(LANGUAGE_STORAGE_KEY),
+        AsyncStorage.getItem(LANGUAGE_SELECTED_KEY),
+      ]);
+
       if (storedUser) {
         setUser(JSON.parse(storedUser));
       }
+
+      const nextLanguage = storedLanguage || 'en';
+      setLanguage(nextLanguage);
+      await i18n.changeLanguage(nextLanguage);
+      setHasSelectedLanguage(selectedLanguageFlag === 'true');
     } catch (e) {
       console.error('Failed to restore token', e);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const setAppLanguage = async (nextLanguage) => {
+    setLanguage(nextLanguage);
+    await i18n.changeLanguage(nextLanguage);
+    await AsyncStorage.multiSet([
+      [LANGUAGE_STORAGE_KEY, nextLanguage],
+      [LANGUAGE_SELECTED_KEY, 'true'],
+    ]);
+    setHasSelectedLanguage(true);
   };
 
   if (isLoading) {
@@ -40,11 +69,23 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <UserContext.Provider value={{ user, setUser }}>
-        <NavigationContainer>
-          {user ? <AppNavigator /> : <AuthNavigator />}
-        </NavigationContainer>
-      </UserContext.Provider>
+      <LanguageContext.Provider
+        value={{
+          language,
+          setAppLanguage,
+          hasSelectedLanguage,
+        }}
+      >
+        {!hasSelectedLanguage ? (
+          <LanguageSelectionScreen />
+        ) : (
+          <UserContext.Provider value={{ user, setUser }}>
+            <NavigationContainer>
+              {user ? <AppNavigator /> : <AuthNavigator />}
+            </NavigationContainer>
+          </UserContext.Provider>
+        )}
+      </LanguageContext.Provider>
     </GestureHandlerRootView>
   );
 }

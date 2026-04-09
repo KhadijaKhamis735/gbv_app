@@ -1,53 +1,91 @@
 import React from 'react';
-import { View, StyleSheet, Text, ScrollView, ImageBackground } from 'react-native';
+import { View, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 
 export default function OnboardingScreen({ navigation }) {
+  const { t } = useTranslation();
+
   const features = [
     {
       icon: 'file-document-outline',
-      title: 'Report Incidents',
-      description: 'Safely report gender-based violence incidents with media attachments',
+      title: t('auth.featureReportTitle'),
+      description: t('auth.featureReportDesc'),
     },
     {
       icon: 'heart-outline',
-      title: 'Get Support',
-      description: 'Access psychological support and connect with counselors',
+      title: t('auth.featureSupportTitle'),
+      description: t('auth.featureSupportDesc'),
     },
     {
       icon: 'phone-outline',
-      title: 'Find Services',
-      description: 'Locate nearby police, hospitals, and NGOs for immediate help',
+      title: t('auth.featureServicesTitle'),
+      description: t('auth.featureServicesDesc'),
     },
     {
       icon: 'book-outline',
-      title: 'Learn Rights',
-      description: 'Understand your rights and access legal information',
+      title: t('auth.featureRightsTitle'),
+      description: t('auth.featureRightsDesc'),
     },
   ];
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      
       {/* Hero Section */}
       <View style={styles.heroSection}>
-        <MaterialCommunityIcons
-          name="shield-heart-outline"
-          size={80}
-          color={colors.primary}
-          style={styles.heroIcon}
+        <Image
+          source={require('../../assets/zyga-logo.jpeg')}
+          style={styles.logo}
+          resizeMode="contain"
         />
-        <Text style={styles.heroTitle}>ZYGA</Text>
-        <Text style={styles.heroSubtitle}>Zanzibar Youth Gender Alliance</Text>
+
         <Text style={styles.heroDescription}>
-          A safe platform for reporting gender-based violence and accessing support services
+          {t('auth.onboardingDescription')}
         </Text>
+      </View>
+
+      {/* Trust Section */}
+      <View style={styles.trustSection}>
+        <MaterialCommunityIcons
+          name="shield-check-outline"
+          size={48}
+          color={colors.success}
+        />
+        <Text style={styles.trustTitle}>{t('auth.trustTitle')}</Text>
+        <Text style={styles.trustText}>
+          {t('auth.trustText')}
+        </Text>
+      </View>
+
+      {/* Action Buttons */}
+      <View style={styles.buttonContainer}>
+        <Button
+          title={t('auth.register')}
+          onPress={() => navigation.navigate('Register')}
+          style={styles.button}
+        />
+        <Button
+          title={t('auth.login')}
+          onPress={() => navigation.navigate('Login')}
+          variant="outline"
+          style={styles.button}
+        />
+        <Button
+          title={t('auth.continueAnonymous')}
+          onPress={() => {
+            navigation.navigate('Login');
+          }}
+          variant="ghost"
+          style={styles.button}
+        />
       </View>
 
       {/* Features */}
       <View style={styles.featuresSection}>
-        <Text style={styles.sectionTitle}>How ZYGA Helps</Text>
+        <Text style={styles.sectionTitle}>{t('auth.howHelps')}</Text>
         {features.map((feature, index) => (
           <View key={index} style={styles.featureCard}>
             <View style={styles.featureIconContainer}>
@@ -59,58 +97,21 @@ export default function OnboardingScreen({ navigation }) {
             </View>
             <View style={styles.featureContent}>
               <Text style={styles.featureTitle}>{feature.title}</Text>
-              <Text style={styles.featureDescription}>{feature.description}</Text>
+              <Text style={styles.featureDescription}>
+                {feature.description}
+              </Text>
             </View>
           </View>
         ))}
       </View>
 
-      {/* Trust Section */}
-      <View style={styles.trustSection}>
-        <MaterialCommunityIcons
-          name="shield-check-outline"
-          size={48}
-          color={colors.success}
-        />
-        <Text style={styles.trustTitle}>Your Safety is Our Priority</Text>
-        <Text style={styles.trustText}>
-          • Completely confidential and secure
-          {'\n'}• Your data is encrypted
-          {'\n'}• Anonymous reporting option available
-          {'\n'}• No one can access your information without permission
-        </Text>
-      </View>
-
-      {/* Action Buttons */}
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Create Account"
-          onPress={() => navigation.navigate('Register')}
-          style={styles.button}
-        />
-        <Button
-          title="Login"
-          onPress={() => navigation.navigate('Login')}
-          variant="outline"
-          style={styles.button}
-        />
-        <Button
-          title="Continue as Anonymous"
-          onPress={() => {
-            // Navigate to the app directly (will be handled by Auth context)
-            navigation.navigate('Login');
-          }}
-          variant="ghost"
-          style={styles.button}
-        />
-      </View>
-
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          By using ZYGA, you agree to our Terms of Service and Privacy Policy
+          {t('auth.terms')}
         </Text>
       </View>
+
     </ScrollView>
   );
 }
@@ -126,27 +127,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     backgroundColor: '#F8F9FA',
   },
-  heroIcon: {
-    marginTop: spacing.xl,
+  logo: {
+    width: 120,
+    height: 120,
     marginBottom: spacing.md,
-  },
-  heroTitle: {
-    fontSize: fontSize['4xl'],
-    fontWeight: 'bold',
-    color: colors.primary,
-    marginBottom: spacing.xs,
-  },
-  heroSubtitle: {
-    fontSize: fontSize.lg,
-    color: colors.gray,
-    marginBottom: spacing.md,
-    fontWeight: '500',
   },
   heroDescription: {
     fontSize: fontSize.base,
     color: colors.gray,
     textAlign: 'center',
     lineHeight: 22,
+    marginTop: spacing.lg,
   },
   featuresSection: {
     paddingHorizontal: spacing.md,

@@ -9,15 +9,22 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import Card from '../../components/Card';
-import { mockChatMessages, mockChatResponses } from '../../data/mockData';
-import { supportApi } from '../../services/apiService';
 
 export default function PsychologicalSupportScreen({ navigation }) {
-  const [messages, setMessages] = useState(mockChatMessages);
+  const { t } = useTranslation();
+  const [messages, setMessages] = useState([
+    {
+      id: 1,
+      text: t('psych.botWelcome'),
+      sender: 'bot',
+      timestamp: new Date(),
+    },
+  ]);
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -37,11 +44,15 @@ export default function PsychologicalSupportScreen({ navigation }) {
     setLoading(true);
 
     try {
-      // Get bot response
-      const response = await supportApi.getChatResponse(inputText);
+      const responses = t('psych.botResponses', { returnObjects: true });
+      const responseList = Array.isArray(responses) && responses.length > 0
+        ? responses
+        : [t('psych.botFallback')];
+
+      await new Promise((resolve) => setTimeout(resolve, 600));
       const botMessage = {
         id: messages.length + 2,
-        text: response.data.response,
+        text: responseList[Math.floor(Math.random() * responseList.length)],
         sender: 'bot',
         timestamp: new Date(),
       };
@@ -105,9 +116,9 @@ export default function PsychologicalSupportScreen({ navigation }) {
               color={colors.primary}
             />
             <View style={styles.infoText}>
-              <Text style={styles.infoTitle}>Confidential Support</Text>
+              <Text style={styles.infoTitle}>{t('psych.confidentialTitle')}</Text>
               <Text style={styles.infoDescription}>
-                Chat with our AI support bot or request to speak with a counselor
+                {t('psych.confidentialDescription')}
               </Text>
             </View>
           </View>
@@ -125,17 +136,17 @@ export default function PsychologicalSupportScreen({ navigation }) {
 
       {/* Resources */}
       <Card style={styles.resourcesCard}>
-        <Text style={styles.resourcesTitle}>Need More Help?</Text>
+        <Text style={styles.resourcesTitle}>{t('psych.needMoreHelp')}</Text>
         <View style={styles.resourcesButtons}>
           <Button
-            title="Call Counselor"
+            title={t('psych.callCounselor')}
             onPress={() => {}}
             variant="primary"
             size="sm"
             style={styles.resourceButton}
           />
           <Button
-            title="Find Services"
+            title={t('psych.findServices')}
             onPress={() => navigation.navigate('ServicesTab')}
             variant="secondary"
             size="sm"
@@ -147,7 +158,7 @@ export default function PsychologicalSupportScreen({ navigation }) {
       {/* Input */}
       <View style={styles.inputContainer}>
         <Input
-          placeholder="Type your message..."
+          placeholder={t('psych.typeMessage')}
           value={inputText}
           onChangeText={setInputText}
           rightIcon={loading ? 'loading' : 'send'}

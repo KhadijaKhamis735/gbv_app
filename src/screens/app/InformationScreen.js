@@ -1,70 +1,116 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { Alert, View, StyleSheet, ScrollView, Text, TouchableOpacity, Pressable, Linking } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Card from '../../components/Card';
+import Button from '../../components/Button';
+import { mockInternationalPolicies } from '../../data/mockData';
 
 export default function InformationScreen({ navigation }) {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState('policies');
+  const [expandedPolicies, setExpandedPolicies] = useState({});
+  const learnMoreUrl = 'https://www.unwomen.org/en/what-we-do/ending-violence-against-women';
+
+  const findNavigatorWithRoute = (routeName) => {
+    let currentNav = navigation;
+
+    while (currentNav) {
+      const state = currentNav.getState?.();
+      if (state?.routeNames?.includes(routeName)) {
+        return currentNav;
+      }
+      currentNav = currentNav.getParent?.();
+    }
+
+    return null;
+  };
+
+  const navigateToDocument = (params) => {
+    const stackNav = findNavigatorWithRoute('InfoDocument');
+    if (stackNav) {
+      stackNav.navigate('InfoDocument', params);
+      return;
+    }
+
+    const drawerNav = findNavigatorWithRoute('Info Document');
+    if (drawerNav) {
+      drawerNav.navigate('Info Document', params);
+      return;
+    }
+
+    Alert.alert('Navigation Error', 'Could not open document. Please try again.');
+  };
+
+  const togglePolicy = (policyId) => {
+    setExpandedPolicies((prev) => ({
+      ...prev,
+      [policyId]: !prev[policyId],
+    }));
+  };
+
+  const handleLearnMore = async () => {
+    try {
+      await Linking.openURL(learnMoreUrl);
+    } catch {
+      Alert.alert('Unable to Open', 'Could not open the Learn More link.');
+    }
+  };
+
+  const openDocument = ({ type, itemId, title }) => {
+    navigateToDocument({
+      type,
+      itemId,
+      title,
+    });
+  };
 
   const tabs = [
-    { id: 'policies', label: 'International Policies' },
-    { id: 'rights', label: 'Human Rights' },
+    { id: 'policies', label: t('drawer.internationalPolicies') },
+    { id: 'rights', label: t('drawer.humanRights') },
   ];
 
-  const menuItems = [
+  const rightsItems = [
     {
-      id: 'policies',
-      items: [
-        {
-          title: 'Istanbul Convention',
-          desc: 'Council of Europe',
-          action: () => navigation.navigate('InternationalPolicies'),
-        },
-        {
-          title: 'CEDAW',
-          desc: 'UN Convention',
-          action: () => navigation.navigate('InternationalPolicies'),
-        },
-        {
-          title: 'Beijing Declaration',
-          desc: 'UN Platform',
-          action: () => navigation.navigate('InternationalPolicies'),
-        },
-      ],
+      title: t('information.rightsItems.1.title'),
+      desc: t('information.rightsItems.1.desc'),
+      action: () =>
+        openDocument({
+          type: 'right',
+          itemId: 1,
+          title: t('information.rightsItems.1.title'),
+        }),
     },
     {
-      id: 'rights',
-      items: [
-        {
-          title: 'Right to Life',
-          desc: 'Protected by law',
-          action: () => navigation.navigate('HumanRights'),
-        },
-        {
-          title: 'Freedom from Torture',
-          desc: 'Fundamental right',
-          action: () => navigation.navigate('HumanRights'),
-        },
-        {
-          title: 'Equality Rights',
-          desc: 'Non-discrimination',
-          action: () => navigation.navigate('HumanRights'),
-        },
-      ],
+      title: t('information.rightsItems.2.title'),
+      desc: t('information.rightsItems.2.desc'),
+      action: () =>
+        openDocument({
+          type: 'right',
+          itemId: 2,
+          title: t('information.rightsItems.2.title'),
+        }),
+    },
+    {
+      title: t('information.rightsItems.3.title'),
+      desc: t('information.rightsItems.3.desc'),
+      action: () =>
+        openDocument({
+          type: 'right',
+          itemId: 3,
+          title: t('information.rightsItems.3.title'),
+        }),
     },
   ];
-
-  const currentItems =
-    menuItems.find((m) => m.id === activeTab)?.items || [];
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Education & Information</Text>
+        <Text style={styles.headerTitle}>{t('information.headerTitle')}</Text>
         <Text style={styles.headerSubtitle}>
-          Learn about your rights and protections
+          {t('information.headerSubtitle')}
         </Text>
       </View>
 
@@ -90,11 +136,52 @@ export default function InformationScreen({ navigation }) {
 
       {/* Content */}
       <View style={styles.content}>
-        {currentItems.map((item, index) => (
-          <TouchableOpacity
+        {activeTab === 'policies' && mockInternationalPolicies.map((policy) => {
+          const localizedPolicy = {
+            ...policy,
+            title: t(`policies.items.${policy.id}.title`, { defaultValue: policy.title }),
+            organization: t(`policies.items.${policy.id}.organization`, { defaultValue: policy.organization }),
+            content: t(`policies.items.${policy.id}.content`, { defaultValue: policy.content }),
+          };
+
+          return (
+            <TouchableOpacity
+              key={policy.id}
+              onPress={() => togglePolicy(policy.id)}
+              activeOpacity={0.7}
+            >
+              <Card style={styles.policyCard}>
+                <View style={styles.policyHeader}>
+                  <View style={styles.policyInfo}>
+                    <Text style={styles.policyTitle}>{localizedPolicy.title}</Text>
+                    <Text style={styles.policyOrg}>{localizedPolicy.organization}</Text>
+                  </View>
+                  <MaterialCommunityIcons
+                    name={expandedPolicies[policy.id] ? 'chevron-up' : 'chevron-down'}
+                    size={24}
+                    color={colors.primary}
+                  />
+                </View>
+
+                {expandedPolicies[policy.id] && (
+                  <View style={styles.policyContent}>
+                    <View style={styles.contentDivider} />
+                    <Text style={styles.contentText}>{localizedPolicy.content}</Text>
+                  </View>
+                )}
+              </Card>
+            </TouchableOpacity>
+          );
+        })}
+
+        {activeTab === 'rights' && rightsItems.map((item, index) => (
+          <Pressable
             key={index}
             onPress={item.action}
-            style={styles.itemTouchable}
+            style={({ pressed }) => [
+              styles.itemTouchable,
+              pressed && styles.itemTouchablePressed,
+            ]}
           >
             <Card style={styles.itemCard}>
               <View style={styles.itemContent}>
@@ -109,7 +196,7 @@ export default function InformationScreen({ navigation }) {
                 />
               </View>
             </Card>
-          </TouchableOpacity>
+          </Pressable>
         ))}
       </View>
 
@@ -122,10 +209,31 @@ export default function InformationScreen({ navigation }) {
             color={colors.info}
           />
           <Text style={styles.bannerText}>
-            This information is provided for educational purposes to help you understand your rights and available protections.
+            {activeTab === 'policies' ? t('policies.infoBanner') : t('information.infoBanner')}
           </Text>
         </View>
       </Card>
+
+      {activeTab === 'policies' && (
+        <Card style={styles.resourcesCard}>
+          <Text style={styles.resourcesTitle}>{t('policies.learnMore')}</Text>
+          <View style={styles.resourceItem}>
+            <MaterialCommunityIcons
+              name="link"
+              size={20}
+              color={colors.primary}
+            />
+            <Text style={styles.resourceText}>
+              {t('policies.resourceText')}
+            </Text>
+          </View>
+          <Button
+            title={t('policies.learnMore')}
+            onPress={handleLearnMore}
+            style={styles.learnMoreButton}
+          />
+        </Card>
+      )}
     </ScrollView>
   );
 }
@@ -187,8 +295,49 @@ const styles = StyleSheet.create({
   itemTouchable: {
     marginBottom: spacing.md,
   },
+  itemTouchablePressed: {
+    opacity: 0.8,
+    transform: [{ scale: 0.99 }],
+  },
   itemCard: {
     padding: spacing.md,
+    borderWidth: 1,
+    borderColor: '#D9E2EC',
+  },
+  policyCard: {
+    marginBottom: spacing.md,
+  },
+  policyHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  policyInfo: {
+    flex: 1,
+    marginRight: spacing.md,
+  },
+  policyTitle: {
+    fontSize: fontSize.base,
+    fontWeight: '700',
+    color: colors.dark,
+    marginBottom: spacing.xs,
+  },
+  policyOrg: {
+    fontSize: fontSize.sm,
+    color: colors.gray,
+  },
+  policyContent: {
+    marginTop: spacing.md,
+  },
+  contentDivider: {
+    height: 1,
+    backgroundColor: colors.light,
+    marginBottom: spacing.md,
+  },
+  contentText: {
+    fontSize: fontSize.sm,
+    color: colors.gray,
+    lineHeight: 20,
   },
   itemContent: {
     flexDirection: 'row',
@@ -220,5 +369,28 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.info,
     lineHeight: 18,
+  },
+  resourcesCard: {
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.xl,
+  },
+  resourcesTitle: {
+    fontSize: fontSize.base,
+    fontWeight: '600',
+    color: colors.dark,
+    marginBottom: spacing.md,
+  },
+  resourceItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  resourceText: {
+    marginLeft: spacing.md,
+    fontSize: fontSize.sm,
+    color: colors.gray,
+    flex: 1,
+  },
+  learnMoreButton: {
+    marginTop: spacing.md,
   },
 });

@@ -1,0 +1,543 @@
+{
+  "common": {
+    "appName": "ZYGA",
+    "welcome": "Karibu",
+    "anonymousUser": "Mtumiaji Asiyejulikana",
+    "guest": "Mgeni",
+    "supportMember": "Mwanachama wa Msaada",
+    "notProvided": "Haijatolewa",
+    "cancel": "Ghairi",
+    "success": "Imefanikiwa",
+    "continue": "Endelea"
+  },
+  "greeting": {
+    "morning": "Habari za Asubuhi",
+    "afternoon": "Habari za Mchana",
+    "evening": "Habari za Jioni"
+  },
+  "drawer": {
+    "dashboard": "Dashibodi",
+    "reportNow": "Ripoti Sasa",
+    "getHelp": "Pata Msaada",
+    "localLaws": "Sheria za Ndani",
+    "emergency": "Dharura",
+    "supportServices": "Huduma za Msaada",
+    "stories": "Hadithi",
+    "addStory": "Ongeza Hadithi",
+    "information": "Taarifa",
+    "internationalPolicies": "Sera za Kimataifa",
+    "humanRights": "Haki za Binadamu",
+    "profile": "Wasifu",
+    "aboutUs": "Kuhusu Sisi",
+    "settings": "Mipangilio",
+    "language": "Lugha",
+    "feedback": "Maoni",
+    "logout": "Toka"
+  },
+  "tabs": {
+    "home": "Nyumbani",
+    "help": "Msaada",
+    "learn": "Jifunze",
+    "services": "Huduma",
+    "stories": "Hadithi",
+    "aboutUs": "Kuhusu Sisi"
+  },
+  "home": {
+    "safetyTitle": "Usalama Wako ni Muhimu",
+    "safetyDescription": "Tupo hapa kukusaidia. Ripoti kwa usiri.",
+    "resources": "Rasilimali",
+    "resourceGbvTitle": "GBV ni nini?",
+    "resourceGbvDesc": "Jifunze aina mbalimbali za ukatili wa kijinsia",
+    "resourceRightsTitle": "Haki Zako",
+    "resourceRightsDesc": "Fahamu haki na ulinzi wako wa kisheria",
+    "resourceStepsTitle": "Hatua za Kwanza",
+    "resourceStepsDesc": "Cha kufanya wewe au unayemfahamu akipatwa na tatizo",
+    "recentActivity": "Shughuli za Hivi Karibuni",
+    "seeAll": "Tazama Zote",
+    "noActivity": "Bado hakuna shughuli",
+    "supportTitle": "Unahitaji Msaada wa Haraka?",
+    "supportDescription": "Unganishwa na washauri na huduma za karibu",
+    "getSupport": "Pata Msaada",
+    "sendFeedback": "Tuma Maoni"
+  },
+  "auth": {
+    "subtitle": "Kuripoti GBV na Msaada",
+    "login": "Ingia",
+    "register": "Tengeneza Akaunti",
+    "email": "Barua Pepe",
+    "password": "Nenosiri",
+    "forgotPassword": "Umesahau Nenosiri?",
+    "or": "AU",
+    "continueAnonymous": "Endelea Bila Jina",
+    "dontHaveAccount": "Huna akaunti?",
+    "signUp": "Jisajili",
+    "helpText": "Programu hii imeundwa kusaidia waathirika wa ukatili wa kijinsia. Usalama na faragha yako ni kipaumbele chetu.",
+    "loginSuccess": "Umeingia kwa Mafanikio",
+    "welcomeBack": "Karibu tena, {{name}}!",
+    "loginFailed": "Kuingia Kumeshindikana",
+    "invalidCredentials": "Barua pepe au nenosiri si sahihi",
+    "anonWelcomeTitle": "Karibu",
+    "anonWelcomeMessage": "Sasa unatumia hali ya bila jina",
+    "anonFailed": "Imeshindikana kuendelea bila jina",
+    "onboardingTitle": "Zanzibar Youth Gender Alliance",
+    "onboardingDescription": "Jukwaa salama la kuripoti ukatili wa kijinsia na kupata huduma za msaada",
+    "howHelps": "Jinsi ZYGA Inavyosaidia",
+    "featureReportTitle": "Ripoti Matukio",
+    "featureReportDesc": "Ripoti matukio ya ukatili wa kijinsia kwa usalama pamoja na viambatisho",
+    "featureSupportTitle": "Pata Msaada",
+    "featureSupportDesc": "Pata msaada wa kisaikolojia na ungana na washauri",
+    "featureServicesTitle": "Pata Huduma",
+    "featureServicesDesc": "Tafuta polisi, hospitali na NGOs zilizo karibu",
+    "featureRightsTitle": "Jifunze Haki",
+    "featureRightsDesc": "Elewa haki zako na taarifa za kisheria",
+    "trustTitle": "Usalama Wako ni Kipaumbele Chetu",
+    "trustText": "• Faragha kamili na usalama\n• Taarifa zako zimesimbwa\n• Kuna chaguo la kuripoti bila jina\n• Hakuna anayepata taarifa zako bila ruhusa",
+    "terms": "Kwa kutumia ZYGA, unakubali Masharti ya Huduma na Sera ya Faragha",
+    "accountCreated": "Akaunti Imetengenezwa",
+    "registerFailed": "Usajili Umeshindikana",
+    "registerFailedMessage": "Imeshindikana kutengeneza akaunti",
+    "mustAgreeTerms": "Lazima ukubali masharti",
+    "joinCommunity": "Jiunge na jamii yetu salama",
+    "fullName": "Jina Kamili",
+    "fullNamePlaceholder": "Andika jina lako kamili",
+    "passwordHint": "Angalau herufi 6 zenye herufi kubwa na namba",
+    "confirmPassword": "Thibitisha Nenosiri",
+    "confirmPasswordPlaceholder": "Andika tena nenosiri",
+    "iAgree": "Nakubali",
+    "and": "na",
+    "alreadyHaveAccount": "Tayari una akaunti?",
+    "dataSecure": "Taarifa zako zimesimbwa na kulindwa. Hatushiriki taarifa zako."
+  },
+  "language": {
+    "title": "Chagua Lugha",
+    "subtitle": "Chagua lugha unayopendelea",
+    "english": "English",
+    "swahili": "Kiswahili",
+    "section": "Lugha",
+    "changed": "Lugha imebadilishwa"
+  },
+  "settings": {
+    "account": "AKAUNTI",
+    "notifications": "ARIFA",
+    "privacy": "FARAGHA NA USALAMA",
+    "app": "PROGRAMU",
+    "data": "TAARIFA",
+    "editProfile": "Hariri Wasifu",
+    "email": "Barua Pepe",
+    "phone": "Simu",
+    "pushNotifications": "Arifa za Programu",
+    "emailAlerts": "Arifa za Barua Pepe",
+    "smsAlerts": "Arifa za SMS",
+    "locationTracking": "Ufuatiliaji wa Eneo",
+    "darkMode": "Hali ya Giza",
+    "changePassword": "Badilisha Nenosiri",
+    "about": "Kuhusu",
+    "privacyPolicy": "Sera ya Faragha",
+    "terms": "Masharti ya Huduma",
+    "helpSupport": "Msaada",
+    "versionLabel": "Toleo",
+    "footerOrg": "© 2024 - Zanzibar Youth Gender Alliance",
+    "clearCache": "Futa Kumbukumbu ya Muda",
+    "clearData": "Futa Taarifa Zote",
+    "signOut": "Toka",
+    "signOutConfirmTitle": "Toka",
+    "signOutConfirmMessage": "Una uhakika unataka kutoka?",
+    "clearDataConfirmTitle": "Futa Taarifa Zote",
+    "clearDataConfirmMessage": "Hii itafuta ripoti na taarifa zote zilizohifadhiwa. Huwezi kurudisha.",
+    "clear": "Futa",
+    "cacheCleared": "Kumbukumbu ya muda imefutwa",
+    "allDataCleared": "Taarifa zote zimefutwa.",
+    "changePasswordSoon": "Huduma ya kubadilisha nenosiri inakuja hivi karibuni"
+  },
+  "feedback": {
+    "ratingRequiredTitle": "Ukadiriaji Unahitajika",
+    "ratingRequiredMessage": "Tafadhali chagua ukadiriaji",
+    "thankYouTitle": "Asante",
+    "thankYouMessage": "Maoni yako yanatusaidia kuboresha programu",
+    "errorTitle": "Hitilafu",
+    "errorMessage": "Imeshindikana kutuma maoni",
+    "headerTitle": "Tunathamini Maoni Yako",
+    "headerSubtitle": "Tusaidie kuboresha ZYGA ili kukuhudumia vizuri",
+    "rateExperience": "Kadiria Uzoefu Wako",
+    "yourFeedback": "Maoni Yako",
+    "placeholder": "Tuambie unafikiria nini...",
+    "infoAnonymous": "Maoni bila jina yanakaribishwa",
+    "infoActOnFeedback": "Tunayasoma na kuyafanyia kazi maoni yote",
+    "infoPrivacy": "Faragha yako inalindwa"
+  },
+  "safeVoice": {
+    "headerTitle": "Sauti Salama - Hadithi",
+    "headerSubtitle": "Soma uzoefu wa manusura",
+    "share": "Shiriki",
+    "infoText": "Hadithi yako inaweza kuhamasisha na kusaidia wengine. Shiriki safari yako kama unajisikia vizuri.",
+    "loginToShare": "Ingia Kushiriki",
+    "readOnlyTitle": "Hali ya Kusoma Pekee",
+    "readOnlyText": "Watumiaji wasiojulikana wanaweza kusoma hadithi. Tafadhali tengeneza akaunti na uingie ili kushiriki yako.",
+    "loginRequiredTitle": "Akaunti Inahitajika",
+    "loginRequiredMessage": "Tafadhali tengeneza akaunti na uingie kabla ya kuongeza hadithi.",
+    "goToAuth": "Tengeneza Akaunti / Ingia",
+    "stories": {
+      "1": {
+        "title": "Kupata Sauti Yangu",
+        "author": "Asiyejulikana",
+        "content": "Baada ya miaka ya kuteseka kimya, hatimaye nilipata ujasiri wa kuzungumza. Programu hii ilinisaidia kuunganishwa na huduma za msaada zilizobadilisha maisha yangu."
+      },
+      "2": {
+        "title": "Safari Yangu ya Kupona",
+        "author": "Sarah",
+        "content": "Sehemu ya msaada wa kisaikolojia ilinisaidia kuelewa kiwewe changu vizuri zaidi. Sasa nafanya kazi na mshauri na ninaona mustakabali wenye matumaini."
+      },
+      "3": {
+        "title": "Kujinasua",
+        "author": "Jane",
+        "content": "Nilitumia programu hii kuandika uzoefu wangu na kuripoti kwa mamlaka. Nashukuru kwa rasilimali zilizonisaidia kuchukua hatua."
+      }
+    }
+  },
+  "supportServices": {
+    "loading": "Inapakia huduma...",
+    "subtitle": "Pata msaada karibu nawe",
+    "all": "Zote",
+    "police": "Polisi",
+    "hospital": "Hospitali",
+    "ngo": "NGO",
+    "call": "Piga",
+    "items": {
+      "1": {
+        "name": "FIDA Tanzania",
+        "description": "Msaada wa kisheria na haki za binadamu kwa wanawake",
+        "address": "Dar es Salaam",
+        "hours": "8:00 Asubuhi - 5:00 Jioni"
+      },
+      "2": {
+        "name": "Kituo cha Polisi Dar es Salaam",
+        "description": "Kituo kikuu cha polisi kwa kuripoti uhalifu",
+        "address": "Dar es Salaam",
+        "hours": "Saa 24/7"
+      },
+      "3": {
+        "name": "Hospitali ya Taifa Muhimbili",
+        "description": "Huduma za matibabu na huduma za dharura",
+        "address": "Dar es Salaam",
+        "hours": "Saa 24/7"
+      },
+      "4": {
+        "name": "TAMWA",
+        "description": "Shirika la vyombo vya habari na utetezi wa wanawake",
+        "address": "Dar es Salaam",
+        "hours": "8:00 Asubuhi - 5:00 Jioni"
+      },
+      "5": {
+        "name": "Hospitali ya Zanzibar",
+        "description": "Hospitali kuu Zanzibar",
+        "address": "Zanzibar",
+        "hours": "Saa 24/7"
+      }
+    }
+  },
+  "psych": {
+    "confidentialTitle": "Msaada wa Faragha",
+    "confidentialDescription": "Ongea na roboti yetu ya msaada au omba kuzungumza na mshauri",
+    "needMoreHelp": "Unahitaji Msaada Zaidi?",
+    "callCounselor": "Piga Mshauri",
+    "findServices": "Tafuta Huduma",
+    "typeMessage": "Andika ujumbe wako...",
+    "botWelcome": "Hujambo! Nipo hapa kusikiliza na kutoa msaada. Unajisikiaje leo?",
+    "botFallback": "Nakusikia. Hauko peke yako, na msaada unapatikana.",
+    "botResponses": [
+      "Naelewa jinsi unavyojisikia. Hauko peke yako katika hili.",
+      "Hilo linaonekana gumu. Ungependa kujua kuhusu huduma za msaada zilizo karibu?",
+      "Usalama wako ni muhimu. Umefikiria kuripoti hili kwa mamlaka?",
+      "Ni sawa kujisikia kuchanganyikiwa au kuogopa. Haya ni majibu ya kawaida.",
+      "Ungependa kuzungumza na mshauri wa kitaalamu?",
+      "Ngoja nikushirikishe rasilimali zinazoweza kukusaidia."
+    ]
+  },
+  "emergency": {
+    "alertTitle": "Mawasiliano ya Dharura",
+    "alertMessage": "Uko kwenye hatari ya haraka? Piga huduma za dharura sasa!",
+    "oneTapTitle": "Piga Dharura kwa Guso Moja",
+    "police": "Polisi",
+    "medical": "Matibabu",
+    "fire": "Moto",
+    "services": "Huduma za Dharura",
+    "text": "Tuma Ujumbe",
+    "safetyTips": "Vidokezo vya Usalama",
+    "tip1": "Tulia na toa taarifa wazi kwa wahudumu wa dharura",
+    "tip2": "Nenda mahali salama kabla ya kupiga simu ikiwezekana",
+    "tip3": "Mjulishe mtu unayemwamini kuhusu ulipo",
+    "tip4": "Hifadhi namba muhimu kwenye simu yako",
+    "afterSafetyTitle": "Baada ya Kufika Salama",
+    "afterSafetyText": "Ungana na huduma za msaada, washauri, na msaada wa kisheria kukusaidia kupona na kupanga hatua zinazofuata.",
+    "contacts": {
+      "1": {
+        "name": "Polisi wa Dharura",
+        "country": "Tanzania"
+      },
+      "2": {
+        "name": "Huduma ya Dharura ya Matibabu",
+        "country": "Tanzania"
+      },
+      "3": {
+        "name": "Zimamoto na Uokoaji",
+        "country": "Tanzania"
+      }
+    }
+  },
+  "profile": {
+    "user": "Mtumiaji",
+    "anonymousMode": "Hali ya Bila Jina",
+    "profileInformation": "Taarifa za Wasifu",
+    "editProfile": "Hariri Wasifu",
+    "nameLabel": "Jina Kamili",
+    "namePlaceholder": "Andika jina lako kamili",
+    "emailPlaceholder": "Weka barua pepe yako",
+    "phonePlaceholder": "Weka namba yako ya simu",
+    "saveChanges": "Hifadhi Mabadiliko",
+    "profileUpdated": "Wasifu umeboreshwa kwa mafanikio",
+    "profileUpdateFailed": "Imeshindikana kusasisha wasifu wako",
+    "memberSince": "Mwanachama Tangu",
+    "unknown": "Haijulikani",
+    "notifications": "Arifa",
+    "privacySecurity": "Faragha na Usalama",
+    "termsConditions": "Masharti na Vigezo",
+    "appTagline": "Kuripoti Ukatili wa Kijinsia na Msaada",
+    "aboutText": "ZYGA ni jukwaa salama lililoundwa kusaidia manusura wa ukatili wa kijinsia. Tunatoa uripoti, ushauri, na kuunganisha rasilimali kwa usiri wa hali ya juu.",
+    "needHelp": "Unahitaji Msaada?",
+    "helpText": "Wasiliana na timu yetu ya msaada au tembelea sehemu ya maswali ya kawaida."
+  },
+  "aboutUs": {
+    "heroText": "Jukwaa salama na la siri la kuripoti, kujifunza, na kupata msaada.",
+    "missionTitle": "Dhamira Yetu",
+    "missionText": "Kuwapa manusura na jamii nafasi salama ya kuripoti GBV, kupata taarifa sahihi, na kuunganishwa na msaada.",
+    "whatWeDoTitle": "Tunachofanya",
+    "whatWeDoText": "Tunaunganisha zana za kuripoti, huduma za msaada, elimu ya kisheria, na hadithi za manusura kwenye sehemu moja.",
+    "privacyTitle": "Faragha Kwanza",
+    "privacyText": "Tunaheshimu kutotambulika na kulinda taarifa zako binafsi.",
+    "contactTitle": "Unahitaji Msaada au Unataka Kuripoti?",
+    "contactText": "Tumia programu kuripoti tukio, soma rasilimali za msaada, au wasiliana na washauri na huduma.",
+    "getStarted": "Ripoti Sasa",
+    "needHelp": "Nenda Kwenye Msaada"
+  },
+  "laws": {
+    "headerSubtitle": "Ulinzi wa Kisheria wa GBV Tanzania na Zanzibar",
+    "infoBanner": "Sheria hizi zinalinda haki zako. Gusa sheria yoyote kujifunza zaidi.",
+    "tanzania": "Tanzania",
+    "zanzibar": "Zanzibar",
+    "needLegalHelp": "Unahitaji Msaada wa Kisheria?",
+    "helpText": "Wasiliana na FIDA Tanzania au taasisi za msaada wa kisheria kwa usaidizi wa kesi yako.",
+    "items": {
+      "1": {
+        "title": "Sheria ya Ndoa, 1971",
+        "description": "Inatoa usajili wa ndoa na ubatilishaji",
+        "content": "Sheria hii inaweka mfumo wa kisheria wa ndoa nchini Tanzania, ikijumuisha haki za wanandoa na taratibu za talaka."
+      },
+      "2": {
+        "title": "Sheria ya UKIMWI (Kinga na Udhibiti), 2008",
+        "description": "Inalinda haki za wanaoishi na VVU/UKIMWI",
+        "content": "Inajumuisha vifungu vya kuzuia ubaguzi na ukatili wa kijinsia, hasa dhidi ya wanawake na watu walio katika hatari."
+      },
+      "3": {
+        "title": "Kanuni ya Adhabu",
+        "description": "Sheria ya jinai yenye vifungu vya makosa ya kijinsia",
+        "content": "Sehemu za 130-145 zinashughulikia ukatili wa kijinsia, ingawa marekebisho yanaendelea kuimarisha ulinzi."
+      },
+      "4": {
+        "title": "Sheria Maalum ya Makosa ya Kujamiiana, 1998",
+        "description": "Inashughulikia ukatili wa kijinsia na unyonyaji",
+        "content": "Inaweka vifungu maalum vya mashtaka ya makosa ya kijinsia na kulinda waathirika."
+      },
+      "5": {
+        "title": "Sheria ya Hali Binafsi, 1961",
+        "description": "Sheria ya Kiislamu inayosimamia masuala ya hali binafsi",
+        "content": "Inasimamia ndoa, talaka, na urithi chini ya sheria ya Kiislamu Zanzibar."
+      },
+      "6": {
+        "title": "Kanuni ya Adhabu",
+        "description": "Sheria ya jinai yenye vifungu vya makosa ya kingono",
+        "content": "Ina sehemu zinazoshughulikia ukatili wa kijinsia na mashambulizi kwa kuzingatia muktadha wa kitamaduni."
+      }
+    }
+  },
+  "information": {
+    "headerTitle": "Elimu na Taarifa",
+    "headerSubtitle": "Jifunze kuhusu haki na ulinzi wako",
+    "infoBanner": "Taarifa hizi zimetolewa kwa madhumuni ya elimu ili kukusaidia kuelewa haki na ulinzi unaopatikana.",
+    "policiesItems": {
+      "1": {
+        "title": "Mkataba wa Istanbul",
+        "desc": "Baraza la Ulaya"
+      },
+      "2": {
+        "title": "CEDAW",
+        "desc": "Mkataba wa UN"
+      },
+      "3": {
+        "title": "Azimio la Beijing",
+        "desc": "Jukwaa la UN"
+      }
+    },
+    "rightsItems": {
+      "1": {
+        "title": "Haki ya Kuishi",
+        "desc": "Inalindwa na sheria"
+      },
+      "2": {
+        "title": "Uhuru dhidi ya Mateso",
+        "desc": "Haki ya msingi"
+      },
+      "3": {
+        "title": "Haki za Usawa",
+        "desc": "Kutobaguliwa"
+      }
+    }
+  },
+  "policies": {
+    "headerSubtitle": "Makubaliano ya kimataifa yanayolinda haki za wanawake",
+    "infoBanner": "Sera hizi za kimataifa zinatoa mfumo wa kulinda haki za wanawake duniani.",
+    "learnMore": "Jifunze Zaidi",
+    "resourceText": "Tembelea UN Women kwa taarifa zaidi",
+    "items": {
+      "1": {
+        "title": "Mkataba wa Istanbul",
+        "organization": "Baraza la Ulaya",
+        "content": "Mkataba wa kuzuia na kupambana na ukatili dhidi ya wanawake na ukatili wa majumbani ni mkataba muhimu dhidi ya ukiukwaji wa haki za binadamu."
+      },
+      "2": {
+        "title": "Mkataba wa UN wa Kuondoa Aina Zote za Ubaguzi Dhidi ya Wanawake (CEDAW)",
+        "organization": "Umoja wa Mataifa",
+        "content": "Ni muswada wa kimataifa wa haki za wanawake unaosisitiza uhuru wao dhidi ya ukatili wa kijinsia na unyonyaji."
+      },
+      "3": {
+        "title": "Azimio la Beijing na Jukwaa la Utekelezaji",
+        "organization": "Umoja wa Mataifa",
+        "content": "Ni mfumo mpana wa kuendeleza usawa wa kijinsia na kushughulikia ukatili dhidi ya wanawake duniani."
+      }
+    }
+  },
+  "rights": {
+    "headerSubtitle": "Haki za msingi zinazokulinda",
+    "declarationTitle": "Tamko la Kimataifa la Haki za Binadamu",
+    "declarationText": "Watu wote huzaliwa huru na sawa kwa hadhi na haki. Haki hizi haziwezi kunyang'anywa na zinalindwa na sheria za kimataifa.",
+    "knowRights": "Fahamu Haki Zako",
+    "tip1": "Haki zako haziwezi kuondolewa kwa sababu ya jinsia yako",
+    "tip2": "Una haki ya usalama na ulinzi dhidi ya madhara",
+    "tip3": "Unastahili heshima, utu na fursa sawa",
+    "tip4": "Tafuta msaada - kuna rasilimali na msaada unaopatikana",
+    "supportTitle": "Unastahili Msaada",
+    "supportText": "Ikiwa haki zako zinakiukwa, wasiliana na mashirika ya msaada na mamlaka zinazoweza kusaidia.",
+    "items": {
+      "1": {
+        "title": "Haki ya Kuishi",
+        "description": "Kila mtu ana haki ya msingi ya kuishi inayolindwa na sheria",
+        "content": "Haki hii ya msingi inajumuisha ulinzi dhidi ya aina zote za ukatili na vitisho kwa usalama binafsi."
+      },
+      "2": {
+        "title": "Haki ya Uhuru dhidi ya Mateso na Matendo ya Kikatili",
+        "description": "Hakuna anayepaswa kufanyiwa mateso au matendo ya kikatili, yasiyo ya kibinadamu",
+        "content": "Ukatili wa kijinsia, ukatili wa majumbani, na unyanyasaji wa kimwili ni ukiukwaji wa haki hii."
+      },
+      "3": {
+        "title": "Haki ya Usawa na Kutobaguliwa",
+        "description": "Watu wote ni sawa mbele ya sheria bila kujali jinsia",
+        "content": "Ubaguzi wa kijinsia unaosababisha ukatili ni ukiukwaji wa haki hii ya msingi."
+      },
+      "4": {
+        "title": "Haki ya Uadilifu wa Mwili",
+        "description": "Kila mtu ana haki ya kulinda uadilifu wa mwili wake",
+        "content": "Ulinzi dhidi ya ukatili wa kijinsia na mashambulizi ni muhimu katika kulinda uhuru wa mwili."
+      }
+    }
+  },
+  "addStory": {
+    "permissionDeniedTitle": "Ruhusa Imekataliwa",
+    "permissionDeniedMessage": "Tunahitaji ruhusa ya kufikia picha zako",
+    "storySharedTitle": "Hadithi Imeshirikishwa",
+    "storySharedMessage": "Asante kwa kushirikisha hadithi yako. Itawatia moyo wengine.",
+    "errorTitle": "Hitilafu",
+    "errorMessage": "Imeshindikana kushirikisha hadithi",
+    "infoText": "Shiriki hadithi yako kwa ridhaa. Unaweza kubaki bila jina.",
+    "nameLabel": "Jina Lako au 'Asiyejulikana'",
+    "namePlaceholder": "Ungependa kutambuliwa vipi?",
+    "titleLabel": "Kichwa cha Hadithi",
+    "titlePlaceholder": "Weka kichwa cha hadithi yako",
+    "storyLabel": "Hadithi Yako",
+    "storyPlaceholder": "Shiriki uzoefu wako...",
+    "addPhotoOptional": "Ongeza Picha (Hiari)",
+    "addPhoto": "Ongeza Picha",
+    "changePhoto": "Badilisha Picha",
+    "privacyText": "Hadithi yako ni muhimu. Tunachunguza kila uwasilishaji ili kuhakikisha usalama na heshima.",
+    "shareStory": "Shiriki Hadithi"
+  },
+  "reportIncident": {
+    "permissionDeniedTitle": "Ruhusa Imekataliwa",
+    "photoPermissionDeniedMessage": "Tunahitaji ruhusa ya kufikia picha zako",
+    "locationPermissionDeniedMessage": "Tunahitaji ruhusa ya kufikia eneo lako",
+    "locationAddedTitle": "Eneo Limeongezwa",
+    "locationAddedMessage": "Eneo lako la sasa limeongezwa",
+    "locationErrorTitle": "Hitilafu ya Eneo",
+    "locationErrorMessage": "Imeshindikana kupata eneo lako",
+    "noMediaOrLocationTitle": "Hakuna Media au Eneo",
+    "noMediaOrLocationMessage": "Fikiria kuongeza media (picha) au eneo lako kwa msaada bora",
+    "reportSubmittedTitle": "Ripoti Imetumwa",
+    "reportSubmittedMessage": "Tukio lako limerekodiwa. Huduma za msaada zitawasiliana nawe hivi karibuni.",
+    "submissionFailedTitle": "Kutuma Kumeshindikana",
+    "submissionFailedMessage": "Imeshindikana kutuma ripoti yako",
+    "submitting": "Inatuma ripoti yako...",
+    "steps": {
+      "details": "Maelezo",
+      "mediaLocation": "Media na Eneo",
+      "review": "Mapitio"
+    },
+    "step1Title": "Tuambie Kilichotokea",
+    "incidentTitleLabel": "Kichwa cha Tukio",
+    "incidentTitlePlaceholder": "Muhtasari mfupi wa tukio",
+    "detailedDescriptionLabel": "Maelezo ya Kina",
+    "detailedDescriptionPlaceholder": "Toa maelezo zaidi kuhusu kilichotokea",
+    "typeOfGbvLabel": "Aina ya GBV",
+    "typeOfGbvPlaceholder": "Chagua aina ya ukatili",
+    "dateOfIncidentLabel": "Tarehe ya Tukio",
+    "datePlaceholder": "Tarehe",
+    "timeOfIncidentLabel": "Muda wa Tukio",
+    "timePlaceholder": "Muda",
+    "step2Title": "Ongeza Media na Eneo (Hiari)",
+    "uploadMediaTitle": "Pakia Media",
+    "uploadMediaDescription": "Ongeza picha, video au sauti kama ushahidi",
+    "addPhoto": "Ongeza Picha",
+    "addLocationTitle": "Ongeza Eneo",
+    "addLocationDescription": "Eneo lako la sasa husaidia huduma kukupata",
+    "locationAddedPrefix": "Eneo limeongezwa:",
+    "updateLocation": "Sasisha Eneo",
+    "addCurrentLocation": "Ongeza Eneo la Sasa",
+    "step3Title": "Kagua Ripoti Yako",
+    "beforeSubmitTitle": "Kabla ya Kutuma",
+    "beforeSubmitMessage": "Tafadhali hakikisha taarifa zote ni sahihi. Ripoti yako itakuwa ya siri.",
+    "back": "Rudi",
+    "next": "Ifuatayo",
+    "submitReport": "Tuma Ripoti",
+    "types": {
+      "physical": "Ukatili wa Kimwili",
+      "sexual": "Ukatili wa Kijinsia",
+      "psychological": "Unyanyasaji wa Kisaikolojia",
+      "economic": "Unyanyasaji wa Kiuchumi",
+      "harassment": "Unyanyasaji",
+      "other": "Nyingine"
+    },
+    "mediaTypes": {
+      "image": "Picha",
+      "video": "Video",
+      "audio": "Sauti"
+    },
+    "review": {
+      "title": "Kichwa",
+      "type": "Aina",
+      "description": "Maelezo",
+      "dateTime": "Tarehe na Muda",
+      "atDateTime": "{{date}} saa {{time}}",
+      "mediaAttached": "Media Imeambatishwa",
+      "mediaFiles": "faili {{count}}",
+      "locationShared": "Eneo Limeshirikishwa",
+      "yes": "Ndiyo"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize, shadows } from '../../constants/colors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -11,6 +12,7 @@ import { saveUser } from '../../services/storageService';
 import { isValidEmail, validateForm } from '../../utils/validation';
 
 export default function LoginScreen({ navigation }) {
+  const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,14 +54,14 @@ export default function LoginScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Login Successful',
-        message: `Welcome back, ${user.name}!`,
+        title: t('auth.loginSuccess'),
+        message: t('auth.welcomeBack', { name: user.name }),
       });
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Login Failed',
-        message: error.message || 'Invalid email or password',
+        title: t('auth.loginFailed'),
+        message: error.message || t('auth.invalidCredentials'),
       });
     } finally {
       setLoading(false);
@@ -83,14 +85,14 @@ export default function LoginScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Welcome',
-        message: 'You are now using anonymous mode',
+        title: t('auth.anonWelcomeTitle'),
+        message: t('auth.anonWelcomeMessage'),
       });
     } catch (error) {
       setAlert({
         type: 'error',
         title: 'Error',
-        message: 'Failed to continue as anonymous',
+        message: t('auth.anonFailed'),
       });
     } finally {
       setLoading(false);
@@ -107,7 +109,7 @@ export default function LoginScreen({ navigation }) {
           color={colors.primary}
         />
         <Text style={styles.title}>ZYGA</Text>
-        <Text style={styles.subtitle}>GBV Reporting & Support</Text>
+        <Text style={styles.subtitle}>{t('auth.subtitle')}</Text>
       </View>
 
       {/* Alert */}
@@ -124,7 +126,7 @@ export default function LoginScreen({ navigation }) {
       {/* Form */}
       <View style={styles.formContainer}>
         <Input
-          label="Email Address"
+          label={t('auth.email')}
           placeholder="you@example.com"
           value={email}
           onChangeText={setEmail}
@@ -134,8 +136,8 @@ export default function LoginScreen({ navigation }) {
         />
 
         <Input
-          label="Password"
-          placeholder="Enter your password"
+          label={t('auth.password')}
+          placeholder={t('auth.password')}
           value={password}
           onChangeText={setPassword}
           error={errors.password}
@@ -144,11 +146,11 @@ export default function LoginScreen({ navigation }) {
         />
 
         <TouchableOpacity style={styles.forgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          <Text style={styles.forgotPasswordText}>{t('auth.forgotPassword')}</Text>
         </TouchableOpacity>
 
         <Button
-          title="Login"
+          title={t('auth.login')}
           onPress={handleLogin}
           loading={loading}
           disabled={loading}
@@ -159,13 +161,13 @@ export default function LoginScreen({ navigation }) {
       {/* Divider */}
       <View style={styles.divider}>
         <View style={styles.dividerLine} />
-        <Text style={styles.dividerText}>OR</Text>
+        <Text style={styles.dividerText}>{t('auth.or')}</Text>
         <View style={styles.dividerLine} />
       </View>
 
       {/* Anonymous Login */}
       <Button
-        title="Continue as Anonymous"
+        title={t('auth.continueAnonymous')}
         onPress={handleAnonymousLogin}
         variant="outline"
         loading={loading}
@@ -175,9 +177,9 @@ export default function LoginScreen({ navigation }) {
 
       {/* Sign Up Link */}
       <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>Don't have an account? </Text>
+        <Text style={styles.signupText}>{t('auth.dontHaveAccount')} </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-          <Text style={styles.signupLink}>Sign Up</Text>
+          <Text style={styles.signupLink}>{t('auth.signUp')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -189,7 +191,7 @@ export default function LoginScreen({ navigation }) {
           color={colors.info}
         />
         <Text style={styles.helpText}>
-          This app is designed to support survivors of gender-based violence. Your safety and privacy are our priority.
+          {t('auth.helpText')}
         </Text>
       </View>
     </ScrollView>

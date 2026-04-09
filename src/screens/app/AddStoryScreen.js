@@ -5,10 +5,10 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Alert as NativeAlert,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import * as ImagePicker from 'expo-image-picker';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -17,9 +17,11 @@ import Alert from '../../components/Alert';
 import { UserContext } from '../../context/UserContext';
 import { saveStory } from '../../services/storageService';
 import { validateForm } from '../../utils/validation';
+import { clearUser } from '../../services/storageService';
 
 export default function AddStoryScreen({ navigation }) {
-  const { user } = useContext(UserContext);
+  const { t } = useTranslation();
+  const { user, setUser } = useContext(UserContext);
   const [story, setStory] = useState({
     title: '',
     content: '',
@@ -30,6 +32,7 @@ export default function AddStoryScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState(null);
   const [errors, setErrors] = useState({});
+  const isAnonymous = user?.isAnonymous;
 
   const validateStoryForm = () => {
     const rules = {
@@ -58,8 +61,8 @@ export default function AddStoryScreen({ navigation }) {
     if (!permissionResult.granted) {
       setAlert({
         type: 'error',
-        title: 'Permission Denied',
-        message: 'We need permission to access your photos',
+        title: t('addStory.permissionDeniedTitle'),
+        message: t('addStory.permissionDeniedMessage'),
       });
       return;
     }
@@ -79,7 +82,21 @@ export default function AddStoryScreen({ navigation }) {
     }
   };
 
+  const handleGoToAuth = async () => {
+    await clearUser();
+    setUser(null);
+  };
+
   const handleSubmit = async () => {
+    if (isAnonymous) {
+      setAlert({
+        type: 'warning',
+        title: t('addStory.loginRequiredTitle'),
+        message: t('addStory.loginRequiredMessage'),
+      });
+      return;
+    }
+
     if (!validateStoryForm()) {
       return;
     }
@@ -96,8 +113,8 @@ export default function AddStoryScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Story Shared',
-        message: 'Thank you for sharing your story. It will inspire others.',
+        title: t('addStory.storySharedTitle'),
+        message: t('addStory.storySharedMessage'),
       });
 
       setTimeout(() => {
@@ -106,13 +123,38 @@ export default function AddStoryScreen({ navigation }) {
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Error',
-        message: error.message || 'Failed to share story',
+        title: t('addStory.errorTitle'),
+        message: error.message || t('addStory.errorMessage'),
       });
     } finally {
       setLoading(false);
     }
   };
+
+  if (isAnonymous) {
+    return (
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <Card style={styles.guestCard}>
+          <MaterialCommunityIcons
+            name="account-lock-outline"
+            size={56}
+            color={colors.primary}
+            style={styles.guestIcon}
+          />
+          <Text style={styles.guestTitle}>{t('addStory.loginRequiredTitle')}</Text>
+          <Text style={styles.guestText}>{t('addStory.loginRequiredMessage')}</Text>
+          <Button
+            title={t('addStory.goToAuth')}
+            onPress={handleGoToAuth}
+            style={styles.guestButton}
+          />
+          <TouchableOpacity onPress={() => navigation.navigate('SafeVoice')}>
+            <Text style={styles.guestLink}>{t('addStory.viewStories')}</Text>
+          </TouchableOpacity>
+        </Card>
+      </ScrollView>
+    );
+  }
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -125,7 +167,7 @@ export default function AddStoryScreen({ navigation }) {
             color={colors.info}
           />
           <Text style={styles.infoText}>
-            Share your story with consent. You can remain anonymous.
+            {t('addStory.infoText')}
           </Text>
         </View>
       </Card>
@@ -144,8 +186,8 @@ export default function AddStoryScreen({ navigation }) {
       {/* Form */}
       <View style={styles.formContainer}>
         <Input
-          label="Your Name or 'Anonymous'"
-          placeholder="How would you like to be credited?"
+          label={t('addStory.nameLabel')}
+          placeholder={t('addStory.namePlaceholder')}
           value={story.author}
           onChangeText={(text) => setStory({ ...story, author: text })}
           error={errors.author}
@@ -153,8 +195,8 @@ export default function AddStoryScreen({ navigation }) {
         />
 
         <Input
-          label="Story Title"
-          placeholder="Give your story a title"
+          label={t('addStory.titleLabel')}
+          placeholder={t('addStory.titlePlaceholder')}
           value={story.title}
           onChangeText={(text) => setStory({ ...story, title: text })}
           error={errors.title}
@@ -162,8 +204,8 @@ export default function AddStoryScreen({ navigation }) {
         />
 
         <Input
-          label="Your Story"
-          placeholder="Share your experience..."
+          label={t('addStory.storyLabel')}
+          placeholder={t('addStory.storyPlaceholder')}
           value={story.content}
           onChangeText={(text) => setStory({ ...story, content: text })}
           error={errors.content}
@@ -174,7 +216,7 @@ export default function AddStoryScreen({ navigation }) {
 
         {/* Media Upload */}
         <Card style={styles.mediaSection}>
-          <Text style={styles.mediaSectionTitle}>Add Photo (Optional)</Text>
+          <Text style={styles.mediaSectionTitle}>{t('addStory.addPhotoOptional')}</Text>
 
           {media && (
             <View style={styles.mediaPreview}>
@@ -199,7 +241,7 @@ export default function AddStoryScreen({ navigation }) {
           )}
 
           <Button
-            title={media ? 'Change Photo' : 'Add Photo'}
+            title={media ? t('addStory.changePhoto') : t('addStory.addPhoto')}
             onPress={handleAddMedia}
             variant="outline"
             size="sm"
@@ -216,13 +258,13 @@ export default function AddStoryScreen({ navigation }) {
             style={styles.privacyIcon}
           />
           <Text style={styles.privacyText}>
-            Your story is important. We moderate all submissions to ensure safety and respect.
+            {t('addStory.privacyText')}
           </Text>
         </Card>
 
         {/* Submit Button */}
         <Button
-          title="Share Story"
+          title={t('addStory.shareStory')}
           onPress={handleSubmit}
           loading={loading}
           disabled={loading}
@@ -310,5 +352,37 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     marginTop: spacing.md,
+  },
+  guestCard: {
+    marginHorizontal: spacing.md,
+    marginVertical: spacing.xl,
+    alignItems: 'center',
+    backgroundColor: '#E3F2FD',
+  },
+  guestIcon: {
+    marginBottom: spacing.md,
+  },
+  guestTitle: {
+    fontSize: fontSize.lg,
+    fontWeight: '700',
+    color: colors.dark,
+    textAlign: 'center',
+    marginBottom: spacing.sm,
+  },
+  guestText: {
+    fontSize: fontSize.sm,
+    color: colors.gray,
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: spacing.md,
+  },
+  guestButton: {
+    width: '100%',
+    marginBottom: spacing.sm,
+  },
+  guestLink: {
+    color: colors.primary,
+    fontSize: fontSize.sm,
+    fontWeight: '600',
   },
 });

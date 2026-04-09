@@ -7,11 +7,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Card from '../../components/Card';
 import { mockLocalLaws } from '../../data/mockData';
 
 export default function LocalLawsScreen() {
+  const { t } = useTranslation();
   const [expandedLaws, setExpandedLaws] = useState({});
 
   const toggleLaw = (lawId) => {
@@ -26,6 +28,15 @@ export default function LocalLawsScreen() {
       <Text style={styles.countryTitle}>{country}</Text>
 
       {laws.map((law) => (
+        (() => {
+          const localizedLaw = {
+            ...law,
+            title: t(`laws.items.${law.id}.title`, { defaultValue: law.title }),
+            description: t(`laws.items.${law.id}.description`, { defaultValue: law.description }),
+            content: t(`laws.items.${law.id}.content`, { defaultValue: law.content }),
+          };
+
+          return (
         <TouchableOpacity
           key={law.id}
           onPress={() => toggleLaw(law.id)}
@@ -34,8 +45,8 @@ export default function LocalLawsScreen() {
           <Card style={styles.lawCard}>
             <View style={styles.lawHeader}>
               <View style={styles.lawInfo}>
-                <Text style={styles.lawTitle}>{law.title}</Text>
-                <Text style={styles.lawDesc}>{law.description}</Text>
+                <Text style={styles.lawTitle}>{localizedLaw.title}</Text>
+                <Text style={styles.lawDesc}>{localizedLaw.description}</Text>
               </View>
               <MaterialCommunityIcons
                 name={
@@ -51,11 +62,13 @@ export default function LocalLawsScreen() {
             {expandedLaws[law.id] && (
               <View style={styles.lawContent}>
                 <View style={styles.contentDivider} />
-                <Text style={styles.contentText}>{law.content}</Text>
+                <Text style={styles.contentText}>{localizedLaw.content}</Text>
               </View>
             )}
           </Card>
         </TouchableOpacity>
+          );
+        })()
       ))}
     </View>
   );
@@ -64,9 +77,9 @@ export default function LocalLawsScreen() {
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Local Laws</Text>
+        <Text style={styles.headerTitle}>{t('drawer.localLaws')}</Text>
         <Text style={styles.headerSubtitle}>
-          Tanzania & Zanzibar GBV Legal Protections
+          {t('laws.headerSubtitle')}
         </Text>
       </View>
 
@@ -79,16 +92,16 @@ export default function LocalLawsScreen() {
             color={colors.primary}
           />
           <Text style={styles.bannerText}>
-            These laws protect your rights. Tap any law to learn more.
+            {t('laws.infoBanner')}
           </Text>
         </View>
       </Card>
 
       {/* Tanzaniaaws */}
-      {renderLaws('Tanzania', mockLocalLaws.tanzania.laws)}
+      {renderLaws(t('laws.tanzania'), mockLocalLaws.tanzania.laws)}
 
       {/* Zanzibar Laws */}
-      {renderLaws('Zanzibar', mockLocalLaws.zanzibar.laws)}
+      {renderLaws(t('laws.zanzibar'), mockLocalLaws.zanzibar.laws)}
 
       {/* Help Banner */}
       <Card style={styles.helpBanner}>
@@ -98,9 +111,9 @@ export default function LocalLawsScreen() {
           color={colors.warning}
           style={styles.helpIcon}
         />
-        <Text style={styles.helpTitle}>Need Legal Help?</Text>
+        <Text style={styles.helpTitle}>{t('laws.needLegalHelp')}</Text>
         <Text style={styles.helpText}>
-          Contact FIDA Tanzania or local legal aid organizations for assistance with your case.
+          {t('laws.helpText')}
         </Text>
       </Card>
     </ScrollView>

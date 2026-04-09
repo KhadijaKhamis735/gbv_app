@@ -6,6 +6,7 @@ import {
   Text,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -15,6 +16,7 @@ import { saveFeedback } from '../../services/storageService';
 import { validateForm } from '../../utils/validation';
 
 export default function FeedbackScreen({ navigation }) {
+  const { t } = useTranslation();
   const [feedback, setFeedback] = useState({
     message: '',
     rating: 0,
@@ -42,8 +44,8 @@ export default function FeedbackScreen({ navigation }) {
       if (feedback.rating === 0) {
         setAlert({
           type: 'error',
-          title: 'Rating Required',
-          message: 'Please select a rating',
+          title: t('feedback.ratingRequiredTitle'),
+          message: t('feedback.ratingRequiredMessage'),
         });
       }
       return;
@@ -55,8 +57,8 @@ export default function FeedbackScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Thank You',
-        message: 'Your feedback helps us improve the app',
+        title: t('feedback.thankYouTitle'),
+        message: t('feedback.thankYouMessage'),
       });
 
       setTimeout(() => {
@@ -66,8 +68,8 @@ export default function FeedbackScreen({ navigation }) {
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Error',
-        message: 'Failed to send feedback',
+        title: t('feedback.errorTitle'),
+        message: t('feedback.errorMessage'),
       });
     } finally {
       setLoading(false);
@@ -104,9 +106,9 @@ export default function FeedbackScreen({ navigation }) {
           color={colors.primary}
           style={styles.headerIcon}
         />
-        <Text style={styles.headerTitle}>We Value Your Feedback</Text>
+        <Text style={styles.headerTitle}>{t('feedback.headerTitle')}</Text>
         <Text style={styles.headerSubtitle}>
-          Help us improve ZYGA to better serve you
+          {t('feedback.headerSubtitle')}
         </Text>
       </Card>
 
@@ -125,14 +127,14 @@ export default function FeedbackScreen({ navigation }) {
       <View style={styles.formContainer}>
         {/* Rating */}
         <Card>
-          <Text style={styles.formLabel}>Rate Your Experience</Text>
+          <Text style={styles.formLabel}>{t('feedback.rateExperience')}</Text>
           {renderStars()}
         </Card>
 
         {/* Message */}
         <Input
-          label="Your Feedback"
-          placeholder="Tell us what you think..."
+          label={t('feedback.yourFeedback')}
+          placeholder={t('feedback.placeholder')}
           value={feedback.message}
           onChangeText={(text) => setFeedback({ ...feedback, message: text })}
           error={errors.message}
@@ -143,7 +145,7 @@ export default function FeedbackScreen({ navigation }) {
 
         {/* Submit Button */}
         <Button
-          title="Send Feedback"
+          title={t('home.sendFeedback')}
           onPress={handleSubmit}
           loading={loading}
           disabled={loading}
@@ -160,7 +162,7 @@ export default function FeedbackScreen({ navigation }) {
             color={colors.success}
           />
           <Text style={styles.infoText}>
-            Anonymous feedback is welcome
+            {t('feedback.infoAnonymous')}
           </Text>
         </View>
         <View style={styles.infoItem}>
@@ -170,7 +172,7 @@ export default function FeedbackScreen({ navigation }) {
             color={colors.success}
           />
           <Text style={styles.infoText}>
-            We read and act on all feedback
+            {t('feedback.infoActOnFeedback')}
           </Text>
         </View>
         <View style={styles.infoItem}>
@@ -180,7 +182,7 @@ export default function FeedbackScreen({ navigation }) {
             color={colors.success}
           />
           <Text style={styles.infoText}>
-            Your privacy is protected
+            {t('feedback.infoPrivacy')}
           </Text>
         </View>
       </Card>

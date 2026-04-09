@@ -1,72 +1,82 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
   ScrollView,
   Text,
   TouchableOpacity,
-  Linking,
+  Alert,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import Input from '../../components/Input';
 import { UserContext } from '../../context/UserContext';
-import { clearUser } from '../../services/storageService';
+import { saveUser } from '../../services/storageService';
 
 export default function ProfileScreen({ navigation }) {
+  const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
+  const [editingProfile, setEditingProfile] = useState({
+    name: '',
+    email: '',
+    phone: '',
+  });
+  const [saving, setSaving] = useState(false);
 
-  const handleLogout = () => {
-    clearUser();
-    setUser(null);
+  useEffect(() => {
+    setEditingProfile({
+      name: user?.name || '',
+      email: user?.email || '',
+      phone: user?.phone || '',
+    });
+  }, [user]);
+
+  const handleSaveProfile = async () => {
+    if (!user) {
+      Alert.alert(t('feedback.errorTitle'), t('profile.profileUpdateFailed'));
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const updatedUser = {
+        ...user,
+        name: editingProfile.name.trim(),
+        email: editingProfile.email.trim(),
+        phone: editingProfile.phone.trim(),
+      };
+
+      await saveUser(updatedUser);
+      setUser(updatedUser);
+      Alert.alert(t('common.success'), t('profile.profileUpdated'));
+    } catch (error) {
+      Alert.alert(t('feedback.errorTitle'), t('profile.profileUpdateFailed'));
+    } finally {
+      setSaving(false);
+    }
   };
 
   const profileItems = [
     {
       id: 1,
       icon: 'email-outline',
-      label: 'Email',
-      value: user?.email || 'Not provided',
+      label: t('settings.email'),
+      value: user?.email || t('common.notProvided'),
     },
     {
       id: 2,
       icon: 'phone-outline',
-      label: 'Phone',
-      value: user?.phone || 'Not provided',
+      label: t('settings.phone'),
+      value: user?.phone || t('common.notProvided'),
     },
     {
       id: 3,
       icon: 'calendar-outline',
-      label: 'Member Since',
-      value: user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown',
-    },
-  ];
-
-  const settingsItems = [
-    {
-      id: 1,
-      icon: 'bell-outline',
-      label: 'Notifications',
-      onPress: () => {},
-    },
-    {
-      id: 2,
-      icon: 'shield-outline',
-      label: 'Privacy & Security',
-      onPress: () => {},
-    },
-    {
-      id: 3,
-      icon: 'file-document-outline',
-      label: 'Terms & Conditions',
-      onPress: () => Linking.openURL('https://example.com/terms'),
-    },
-    {
-      id: 4,
-      icon: 'lock-outline',
-      label: 'Privacy Policy',
-      onPress: () => Linking.openURL('https://example.com/privacy'),
+      label: t('profile.memberSince'),
+      value: user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : t('profile.unknown'),
     },
   ];
 
@@ -84,7 +94,7 @@ export default function ProfileScreen({ navigation }) {
           </View>
         </View>
         <Text style={styles.profileName}>
-          {user?.isAnonymous ? 'Anonymous User' : (user?.name || 'User')}
+          {user?.isAnonymous ? t('common.anonymousUser') : (user?.name || t('profile.user'))}
         </Text>
         {user?.isAnonymous && (
           <View style={styles.anonymousBadge}>
@@ -93,14 +103,14 @@ export default function ProfileScreen({ navigation }) {
               size={16}
               color={colors.primary}
             />
-            <Text style={styles.anonymousText}>Anonymous Mode</Text>
+            <Text style={styles.anonymousText}>{t('profile.anonymousMode')}</Text>
           </View>
         )}
       </Card>
 
       {/* Profile Information */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Profile Information</Text>
+        <Text style={styles.sectionTitle}>{t('profile.profileInformation')}</Text>
         {profileItems.map((item) => (
           <Card key={item.id} style={styles.infoCard}>
             <View style={styles.infoContent}>
@@ -119,68 +129,56 @@ export default function ProfileScreen({ navigation }) {
         ))}
       </View>
 
-      {/* Settings */}
+      {/* Edit Profile */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Settings</Text>
-        {settingsItems.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            onPress={item.onPress}
-            activeOpacity={0.7}
-          >
-            <Card style={styles.settingsCard}>
-              <View style={styles.settingsContent}>
-                <MaterialCommunityIcons
-                  name={item.icon}
-                  size={24}
-                  color={colors.primary}
-                  style={styles.icon}
-                />
-                <Text style={styles.settingsLabel}>{item.label}</Text>
-                <MaterialCommunityIcons
-                  name="chevron-right"
-                  size={24}
-                  color={colors.gray}
-                />
-              </View>
-            </Card>
-          </TouchableOpacity>
-        ))}
+        <Text style={styles.sectionTitle}>{t('settings.editProfile')}</Text>
+        <Card style={styles.editCard}>
+          <Input
+            label={t('profile.nameLabel')}
+            placeholder={t('profile.namePlaceholder')}
+            value={editingProfile.name}
+            onChangeText={(text) => setEditingProfile((prev) => ({ ...prev, name: text }))}
+            icon="account-outline"
+          />
+          <Input
+            label={t('settings.email')}
+            placeholder={t('profile.emailPlaceholder')}
+            value={editingProfile.email}
+            onChangeText={(text) => setEditingProfile((prev) => ({ ...prev, email: text }))}
+            icon="email-outline"
+            keyboardType="email-address"
+          />
+          <Input
+            label={t('settings.phone')}
+            placeholder={t('profile.phonePlaceholder')}
+            value={editingProfile.phone}
+            onChangeText={(text) => setEditingProfile((prev) => ({ ...prev, phone: text }))}
+            icon="phone-outline"
+            keyboardType="phone-pad"
+          />
+          <Button
+            title={t('profile.saveChanges')}
+            onPress={handleSaveProfile}
+            loading={saving}
+            disabled={saving}
+            style={styles.saveButton}
+          />
+        </Card>
       </View>
 
       {/* About */}
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>About</Text>
+        <Text style={styles.sectionTitle}>{t('settings.about')}</Text>
         <Card style={styles.aboutCard}>
           <Text style={styles.appName}>ZYGA v1.0.0</Text>
           <Text style={styles.appTagline}>
-            Gender-Based Violence Reporting & Support
+            {t('profile.appTagline')}
           </Text>
           <View style={styles.divider} />
           <Text style={styles.aboutText}>
-            ZYGA is a safe platform designed to support survivors of gender-based violence. We provide reporting, counseling, and resource connections with utmost confidentiality.
+            {t('profile.aboutText')}
           </Text>
         </Card>
-      </View>
-
-      {/* Account Actions */}
-      <View style={styles.section}>
-        <Button
-          title="Change Password"
-          variant="outline"
-          style={styles.button}
-        />
-        <Button
-          title="Download My Data"
-          variant="outline"
-          style={styles.button}
-        />
-        <Button
-          title="Logout"
-          onPress={handleLogout}
-          variant="danger"
-          style={styles.button}
-        />
       </View>
 
       {/* Help */}
@@ -191,9 +189,9 @@ export default function ProfileScreen({ navigation }) {
           color={colors.info}
           style={styles.helpIcon}
         />
-        <Text style={styles.helpTitle}>Need Help?</Text>
+        <Text style={styles.helpTitle}>{t('profile.needHelp')}</Text>
         <Text style={styles.helpText}>
-          Contact our support team or visit our FAQ section for common questions.
+          {t('profile.helpText')}
         </Text>
       </Card>
     </ScrollView>
@@ -280,6 +278,9 @@ const styles = StyleSheet.create({
   settingsCard: {
     marginBottom: spacing.md,
   },
+  editCard: {
+    marginBottom: spacing.md,
+  },
   settingsContent: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -318,7 +319,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
   },
-  button: {
+  saveButton: {
     marginBottom: spacing.md,
   },
   helpCard: {

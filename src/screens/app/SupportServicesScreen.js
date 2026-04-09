@@ -2,19 +2,20 @@ import React, { useState, useEffect } from 'react';
 import {
   View,
   StyleSheet,
-  ScrollView,
   Text,
   TouchableOpacity,
   Linking,
   FlatList,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Card from '../../components/Card';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import { mockSupportServices } from '../../data/mockData';
 
 export default function SupportServicesScreen() {
+  const { t } = useTranslation();
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -39,21 +40,44 @@ export default function SupportServicesScreen() {
     }
   }, [selectedCategory, services]);
 
+  const discoveredCategories = [...new Set(services.map((s) => s.category))];
+  const orderedBaseCategories = ['all', 'NGO', 'Police', 'Hospital'];
   const categories = [
-    'all',
-    ...new Set(services.map((s) => s.category)),
+    ...orderedBaseCategories.filter(
+      (cat) => cat === 'all' || discoveredCategories.includes(cat)
+    ),
+    ...discoveredCategories.filter((cat) => !orderedBaseCategories.includes(cat)),
   ];
+
+  const localizedCategory = (cat) => {
+    if (cat === 'all') return t('supportServices.all');
+    if (cat === 'Police') return t('supportServices.police');
+    if (cat === 'Hospital') return t('supportServices.hospital');
+    if (cat === 'NGO') return t('supportServices.ngo');
+    return cat;
+  };
 
   const handleCall = (phone) => {
     Linking.openURL(`tel:${phone}`);
   };
 
-  const renderService = ({ item }) => (
+  const getLocalizedService = (item) => ({
+    ...item,
+    name: t(`supportServices.items.${item.id}.name`, { defaultValue: item.name }),
+    description: t(`supportServices.items.${item.id}.description`, { defaultValue: item.description }),
+    address: t(`supportServices.items.${item.id}.address`, { defaultValue: item.location.address }),
+    hours: t(`supportServices.items.${item.id}.hours`, { defaultValue: item.hours }),
+  });
+
+  const renderService = ({ item }) => {
+    const service = getLocalizedService(item);
+
+    return (
     <Card style={styles.serviceCard}>
       <View style={styles.serviceHeader}>
         <View>
-          <Text style={styles.serviceName}>{item.name}</Text>
-          <Text style={styles.serviceCategory}>{item.category}</Text>
+          <Text style={styles.serviceName}>{service.name}</Text>
+          <Text style={styles.serviceCategory}>{localizedCategory(service.category)}</Text>
         </View>
         <View
           style={[
@@ -81,12 +105,12 @@ export default function SupportServicesScreen() {
               },
             ]}
           >
-            {item.category.charAt(0)}
+            {localizedCategory(service.category).charAt(0)}
           </Text>
         </View>
       </View>
 
-      <Text style={styles.serviceDescription}>{item.description}</Text>
+      <Text style={styles.serviceDescription}>{service.description}</Text>
 
       <View style={styles.serviceMeta}>
         <View style={styles.metaItem}>
@@ -95,7 +119,7 @@ export default function SupportServicesScreen() {
             size={16}
             color={colors.gray}
           />
-          <Text style={styles.metaText}>{item.hours}</Text>
+          <Text style={styles.metaText}>{service.hours}</Text>
         </View>
         <View style={styles.metaItem}>
           <MaterialCommunityIcons
@@ -103,7 +127,7 @@ export default function SupportServicesScreen() {
             size={16}
             color={colors.gray}
           />
-          <Text style={styles.metaText}>{item.location.address}</Text>
+          <Text style={styles.metaText}>{service.address}</Text>
         </View>
       </View>
 
@@ -116,53 +140,52 @@ export default function SupportServicesScreen() {
           size={18}
           color={colors.white}
         />
-        <Text style={styles.callButtonText}>Call: {item.phone}</Text>
+        <Text style={styles.callButtonText}>{t('supportServices.call')}: {item.phone}</Text>
       </TouchableOpacity>
     </Card>
   );
+  };
 
   if (loading) {
-    return <LoadingIndicator message="Loading services..." />;
+    return <LoadingIndicator message={t('supportServices.loading')} />;
   }
 
   return (
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Support Services</Text>
+        <Text style={styles.headerTitle}>{t('drawer.supportServices')}</Text>
         <Text style={styles.headerSubtitle}>
-          Find help near you
+          {t('supportServices.subtitle')}
         </Text>
       </View>
 
       {/* Category Filter */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={styles.categoriesScrollView}
-      >
+      <View style={styles.categoriesFilterWrap}>
         <View style={styles.categoriesContainer}>
-          {categories.map((cat) => (
+          {categories.map((cat, index) => (
             <TouchableOpacity
               key={cat}
               style={[
                 styles.categoryButton,
+                index !== categories.length - 1 && styles.categoryButtonSpacing,
                 selectedCategory === cat && styles.activeCategoryButton,
               ]}
               onPress={() => setSelectedCategory(cat)}
             >
               <Text
+                numberOfLines={1}
                 style={[
                   styles.categoryButtonText,
                   selectedCategory === cat && styles.activeCategoryButtonText,
                 ]}
               >
-                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                {localizedCategory(cat)}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
-      </ScrollView>
+      </View>
 
       {/* Services List */}
       <FlatList
@@ -198,7 +221,7 @@ const styles = StyleSheet.create({
     color: colors.gray,
     marginTop: spacing.xs,
   },
-  categoriesScrollView: {
+  categoriesFilterWrap: {
     backgroundColor: colors.white,
     borderBottomWidth: 1,
     borderBottomColor: colors.light,
@@ -207,13 +230,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
+    alignItems: 'center',
   },
   categoryButton: {
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    marginRight: spacing.md,
+    flex: 1,
+    height: 40,
+    paddingHorizontal: spacing.sm,
     borderRadius: 20,
     backgroundColor: colors.light,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  categoryButtonSpacing: {
+    marginRight: spacing.sm,
   },
   activeCategoryButton: {
     backgroundColor: colors.primary,
@@ -222,6 +251,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.gray,
     fontWeight: '500',
+    textAlign: 'center',
   },
   activeCategoryButtonText: {
     color: colors.white,

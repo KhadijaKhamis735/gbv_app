@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -7,36 +7,56 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Card from '../../components/Card';
 import { mockHumanRights } from '../../data/mockData';
 
-export default function HumanRightsScreen() {
-  const [expandedRights, setExpandedRights] = useState({});
+export default function HumanRightsScreen({ navigation }) {
+  const { t } = useTranslation();
+  const humanRightsPdfUrls = {
+    1: 'https://www.ohchr.org/sites/default/files/Documents/Publications/FactSheet11Rev.1en.pdf',
+    2: 'https://www.ohchr.org/sites/default/files/Documents/Publications/FactSheet4Rev.1en.pdf',
+    3: 'https://www.un.org/en/udhrbook/pdf/udhr_booklet_en_web.pdf',
+  };
 
-  const toggleRight = (rightId) => {
-    setExpandedRights((prev) => ({
-      ...prev,
-      [rightId]: !prev[rightId],
-    }));
+  const handleSupportPress = () => {
+    navigation.getParent?.()?.navigate('SupportTab');
+  };
+
+  const openRightPdf = (rightId, title) => {
+    const uri = humanRightsPdfUrls[rightId] || humanRightsPdfUrls[3];
+    navigation.navigate('PdfViewer', {
+      uri,
+      title,
+    });
   };
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Human Rights</Text>
+        <Text style={styles.headerTitle}>{t('drawer.humanRights')}</Text>
         <Text style={styles.headerSubtitle}>
-          Fundamental rights that protect you
+          {t('rights.headerSubtitle')}
         </Text>
       </View>
 
       {/* Rights */}
       <View style={styles.content}>
         {mockHumanRights.map((right) => (
+          (() => {
+            const localizedRight = {
+              ...right,
+              title: t(`rights.items.${right.id}.title`, { defaultValue: right.title }),
+              description: t(`rights.items.${right.id}.description`, { defaultValue: right.description }),
+              content: t(`rights.items.${right.id}.content`, { defaultValue: right.content }),
+            };
+
+            return (
           <TouchableOpacity
             key={right.id}
-            onPress={() => toggleRight(right.id)}
+            onPress={() => openRightPdf(right.id, localizedRight.title)}
             activeOpacity={0.7}
           >
             <Card style={styles.rightCard}>
@@ -49,28 +69,20 @@ export default function HumanRightsScreen() {
                   />
                 </View>
                 <View style={styles.rightInfo}>
-                  <Text style={styles.rightTitle}>{right.title}</Text>
-                  <Text style={styles.rightDesc}>{right.description}</Text>
+                  <Text style={styles.rightTitle}>{localizedRight.title}</Text>
+                  <Text style={styles.rightDesc}>{localizedRight.description}</Text>
                 </View>
                 <MaterialCommunityIcons
-                  name={
-                    expandedRights[right.id]
-                      ? 'chevron-up'
-                      : 'chevron-down'
-                  }
+                  name="chevron-right"
                   size={24}
                   color={colors.primary}
                 />
               </View>
-
-              {expandedRights[right.id] && (
-                <View style={styles.rightContent}>
-                  <View style={styles.contentDivider} />
-                  <Text style={styles.contentText}>{right.content}</Text>
-                </View>
-              )}
+              <Text style={styles.tapHint}>Tap to open PDF</Text>
             </Card>
           </TouchableOpacity>
+            );
+          })()
         ))}
       </View>
 
@@ -82,15 +94,15 @@ export default function HumanRightsScreen() {
           color={colors.success}
           style={styles.bannerIcon}
         />
-        <Text style={styles.bannerTitle}>Universal Declaration of Human Rights</Text>
+        <Text style={styles.bannerTitle}>{t('rights.declarationTitle')}</Text>
         <Text style={styles.bannerText}>
-          All humans are born free and equal in dignity and rights. These rights are inalienable and protected by international law.
+          {t('rights.declarationText')}
         </Text>
       </Card>
 
       {/* Empowerment Tips */}
       <Card style={styles.tipsCard}>
-        <Text style={styles.tipsTitle}>Know Your Rights</Text>
+        <Text style={styles.tipsTitle}>{t('rights.knowRights')}</Text>
         <View style={styles.tipItem}>
           <MaterialCommunityIcons
             name="check-circle-outline"
@@ -98,7 +110,7 @@ export default function HumanRightsScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Your rights cannot be taken away because of your gender
+            {t('rights.tip1')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -108,7 +120,7 @@ export default function HumanRightsScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            You have the right to safety and protection from harm
+            {t('rights.tip2')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -118,7 +130,7 @@ export default function HumanRightsScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            You deserve respect, dignity, and equal opportunity
+            {t('rights.tip3')}
           </Text>
         </View>
         <View style={styles.tipItem}>
@@ -128,7 +140,7 @@ export default function HumanRightsScreen() {
             color={colors.success}
           />
           <Text style={styles.tipText}>
-            Seek help - there are resources and support available
+            {t('rights.tip4')}
           </Text>
         </View>
       </Card>
@@ -141,10 +153,15 @@ export default function HumanRightsScreen() {
           color={colors.primary}
           style={styles.supportIcon}
         />
-        <Text style={styles.supportTitle}>You Deserve Support</Text>
+        <TouchableOpacity onPress={handleSupportPress} activeOpacity={0.8}>
+          <Text style={styles.supportTitle}>{t('rights.supportTitle')}</Text>
+        </TouchableOpacity>
         <Text style={styles.supportText}>
-          If your rights are being violated, reach out to support organizations and authorities who can help.
+          {t('rights.supportText')}
         </Text>
+        <TouchableOpacity onPress={handleSupportPress} activeOpacity={0.8}>
+          <Text style={styles.supportLink}>{t('drawer.getHelp')}</Text>
+        </TouchableOpacity>
       </Card>
     </ScrollView>
   );
@@ -201,18 +218,10 @@ const styles = StyleSheet.create({
     fontSize: fontSize.sm,
     color: colors.gray,
   },
-  rightContent: {
-    marginTop: spacing.md,
-  },
-  contentDivider: {
-    height: 1,
-    backgroundColor: colors.light,
-    marginBottom: spacing.md,
-  },
-  contentText: {
+  tapHint: {
+    marginTop: spacing.sm,
     fontSize: fontSize.sm,
     color: colors.gray,
-    lineHeight: 20,
   },
   declarationBanner: {
     marginHorizontal: spacing.md,
@@ -279,5 +288,12 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: 'center',
     lineHeight: 18,
+  },
+  supportLink: {
+    marginTop: spacing.sm,
+    fontSize: fontSize.sm,
+    fontWeight: '700',
+    color: colors.primary,
+    textDecorationLine: 'underline',
   },
 });

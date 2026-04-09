@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../../constants/colors';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
@@ -11,6 +12,7 @@ import { saveUser } from '../../services/storageService';
 import { isValidEmail, isValidPassword, validateForm } from '../../utils/validation';
 
 export default function RegisterScreen({ navigation }) {
+  const { t } = useTranslation();
   const { setUser } = useContext(UserContext);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -55,8 +57,8 @@ export default function RegisterScreen({ navigation }) {
     if (!agreedToTerms) {
       setAlert({
         type: 'error',
-        title: 'Required',
-        message: 'You must agree to terms and conditions',
+        title: t('auth.registerFailed'),
+        message: t('auth.mustAgreeTerms'),
       });
       return false;
     }
@@ -79,14 +81,14 @@ export default function RegisterScreen({ navigation }) {
 
       setAlert({
         type: 'success',
-        title: 'Account Created',
+        title: t('auth.accountCreated'),
         message: `Welcome, ${user.name}!`,
       });
     } catch (error) {
       setAlert({
         type: 'error',
-        title: 'Registration Failed',
-        message: error.message || 'Failed to create account',
+        title: t('auth.registerFailed'),
+        message: error.message || t('auth.registerFailedMessage'),
       });
     } finally {
       setLoading(false);
@@ -103,8 +105,8 @@ export default function RegisterScreen({ navigation }) {
         >
           <MaterialCommunityIcons name="arrow-left" size={24} color={colors.primary} />
         </TouchableOpacity>
-        <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Join our safe community</Text>
+        <Text style={styles.title}>{t('auth.register')}</Text>
+        <Text style={styles.subtitle}>{t('auth.joinCommunity')}</Text>
       </View>
 
       {/* Alert */}
@@ -121,8 +123,8 @@ export default function RegisterScreen({ navigation }) {
       {/* Form */}
       <View style={styles.formContainer}>
         <Input
-          label="Full Name"
-          placeholder="Enter your full name"
+          label={t('auth.fullName')}
+          placeholder={t('auth.fullNamePlaceholder')}
           value={name}
           onChangeText={setName}
           error={errors.name}
@@ -130,7 +132,7 @@ export default function RegisterScreen({ navigation }) {
         />
 
         <Input
-          label="Email Address"
+          label={t('auth.email')}
           placeholder="you@example.com"
           value={email}
           onChangeText={setEmail}
@@ -140,8 +142,8 @@ export default function RegisterScreen({ navigation }) {
         />
 
         <Input
-          label="Password"
-          placeholder="At least 6 characters with uppercase & number"
+          label={t('auth.password')}
+          placeholder={t('auth.passwordHint')}
           value={password}
           onChangeText={setPassword}
           error={errors.password}
@@ -150,8 +152,8 @@ export default function RegisterScreen({ navigation }) {
         />
 
         <Input
-          label="Confirm Password"
-          placeholder="Re-enter password"
+          label={t('auth.confirmPassword')}
+          placeholder={t('auth.confirmPasswordPlaceholder')}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           error={errors.confirmPassword}
@@ -177,13 +179,12 @@ export default function RegisterScreen({ navigation }) {
             )}
           </View>
           <Text style={styles.termsText}>
-            I agree to the <Text style={styles.termsLink}>Terms of Service</Text> and{' '}
-            <Text style={styles.termsLink}>Privacy Policy</Text>
+            {t('auth.iAgree')} <Text style={styles.termsLink}>{t('settings.terms')}</Text> {t('auth.and')} <Text style={styles.termsLink}>{t('settings.privacyPolicy')}</Text>
           </Text>
         </TouchableOpacity>
 
         <Button
-          title="Create Account"
+          title={t('auth.register')}
           onPress={handleRegister}
           loading={loading}
           disabled={loading}
@@ -193,9 +194,9 @@ export default function RegisterScreen({ navigation }) {
 
       {/* Login Link */}
       <View style={styles.loginContainer}>
-        <Text style={styles.loginText}>Already have an account? </Text>
+        <Text style={styles.loginText}>{t('auth.alreadyHaveAccount')} </Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.loginLink}>Login</Text>
+          <Text style={styles.loginLink}>{t('auth.login')}</Text>
         </TouchableOpacity>
       </View>
 
@@ -207,7 +208,7 @@ export default function RegisterScreen({ navigation }) {
           color={colors.success}
         />
         <Text style={styles.infoText}>
-          Your data is encrypted and secured. We never share your information.
+          {t('auth.dataSecure')}
         </Text>
       </View>
     </ScrollView>

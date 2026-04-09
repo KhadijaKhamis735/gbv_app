@@ -1,13 +1,17 @@
 import React, { useContext } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing, fontSize } from '../constants/colors';
 import { UserContext } from '../context/UserContext';
 import { clearUser } from '../services/storageService';
 
 export function DrawerContent(props) {
+  const { t } = useTranslation();
   const { user, setUser } = useContext(UserContext);
+  const insets = useSafeAreaInsets();
 
   const handleLogout = async () => {
     await clearUser();
@@ -15,9 +19,9 @@ export function DrawerContent(props) {
     props.navigation.closeDrawer();
   };
 
-  const displayName = user?.isAnonymous ? 'Anonymous User' : (user?.name || 'GBV User');
-  const displayRole = user?.isAnonymous ? 'Guest' : 'Support Member';
-  const userEmail = user?.email || 'Not shared';
+  const displayName = user?.isAnonymous ? t('common.anonymousUser') : (user?.name || t('common.welcome'));
+  const displayRole = user?.isAnonymous ? t('common.guest') : t('common.supportMember');
+  const userEmail = user?.email || t('common.notProvided');
 
   return (
     <View style={styles.container}>
@@ -44,7 +48,7 @@ export function DrawerContent(props) {
           <Text style={styles.userName}>{displayName}</Text>
           <Text style={styles.userRole}>{displayRole}</Text>
           <Text style={styles.userEmail}>
-            {userEmail === 'Not shared' ? '' : userEmail}
+            {userEmail === t('common.notProvided') ? '' : userEmail}
           </Text>
         </View>
 
@@ -61,7 +65,10 @@ export function DrawerContent(props) {
       <View style={styles.logoutContainer}>
         <View style={styles.logoutDivider} />
         <TouchableOpacity 
-          style={styles.logoutButton} 
+          style={[
+            styles.logoutButton,
+            { marginBottom: Math.max(insets.bottom, spacing.sm) }
+          ]}
           onPress={handleLogout} 
           activeOpacity={0.85}
         >
@@ -70,7 +77,7 @@ export function DrawerContent(props) {
             size={24} 
             color={colors.danger} 
           />
-          <Text style={styles.logoutText}>Sign Out</Text>
+          <Text style={styles.logoutText}>{t('drawer.logout')}</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -152,7 +159,7 @@ const styles = StyleSheet.create({
   // LOGOUT SECTION
   logoutContainer: {
     paddingHorizontal: spacing.md,
-    paddingBottom: spacing.lg,
+    paddingBottom: spacing.sm,
     paddingTop: spacing.md,
     backgroundColor: '#FAFAFA',
     borderTopWidth: 1,
